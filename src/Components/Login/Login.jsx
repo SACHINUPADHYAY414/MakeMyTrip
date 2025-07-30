@@ -8,7 +8,7 @@ import {
     OPPS_MSG,
     SUCCESS_MSG,
     SERVER_ERROR,
-} from "../../Utils/Strings.js";
+} from "../../utils/Strings";
 
 import {
     sanitizeEmail,
