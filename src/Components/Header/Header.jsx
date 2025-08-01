@@ -31,7 +31,7 @@ const NavbarEMT = () => {
 
   const navigate = useNavigate();
   const handleLoginClick = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   const handleLogout = () => {
@@ -108,7 +108,10 @@ const NavbarEMT = () => {
                 <span>💼 EMTDesk</span>
                 <span>💎 EMTRoyale</span>
                 <span>✈️ Explore Bharat</span>
-                <span className="fw-bold">
+                <span className="fw-bold mb-1" style={{
+                  marginRight: "-0.8rem",
+                  fontSize: "1.1rem",
+                }}>
                   {user?.first_name} {user?.last_name}
                 </span>
                 {isLoggedIn ? (
@@ -119,6 +122,7 @@ const NavbarEMT = () => {
                       id="userDropdown"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
+                      className="text-primary"
                     />
                     <ul
                       className="dropdown-menu dropdown-menu-end"
@@ -126,10 +130,10 @@ const NavbarEMT = () => {
                     >
                       <li>
                         <button
-                          className="dropdown-item d-flex align-items-center gap-2"
+                          className="dropdown-item d-flex align-items-center fw-bold gap-2"
                           onClick={handleLogout}
                         >
-                          <IoMdLogOut /> Logout
+                          <IoMdLogOut/> Logout
                         </button>
                       </li>
                     </ul>
@@ -296,9 +300,12 @@ const NavbarEMT = () => {
       >
         <div className="offcanvas-header">
           <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
-            {user?.first_name || user?.last_name
-              ? `${user?.first_name ?? ""} ${user?.last_name ?? ""}`.trim()
-              : "Home"}
+            <span style={{ color: "#007bff", fontWeight: "bold" }}>
+              {user?.first_name || user?.last_name
+                ? `${user?.first_name ?? ""} ${user?.last_name ?? ""}`.trim()
+                : "Home"}
+            </span>
+
           </h5>
           <button
             type="button"
@@ -410,15 +417,16 @@ const NavbarEMT = () => {
               </NavLink>
             </li>
           </ul>
-          {user && (
-            <div className="position-absolute bottom-0 end-0 p-3">
-              <FaSignOutAlt
-                className="text-danger fs-4 cursor-pointer"
-                onClick={handleLogout}
-              />
-            </div>
-          )}
         </div>
+        {user && (
+          <div className="position-absolute bottom-0 end-0 p-3">
+            <FaSignOutAlt
+              className="text-danger fs-4 cursor-pointer"
+              onClick={handleLogout}
+            />
+          </div>
+
+        )}
       </div>
     </>
   );

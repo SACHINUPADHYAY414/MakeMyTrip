@@ -12,9 +12,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL:
-    import.meta.env.VITE_LOCAL_API ||
-    "https://backend-makemytrip-px64.onrender.com/api",
+  baseURL: import.meta.env.VITE_LOCAL_API,
   headers: {
     "Content-Type": "application/json"
   }

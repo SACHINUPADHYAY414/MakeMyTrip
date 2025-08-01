@@ -64,7 +64,15 @@ const SearchLayout = () => {
         const { fromCity, toCity, journeyDate } = formData;
 
         if (!fromCity || !toCity || !journeyDate) {
-            alert("Please select From City, To City and Date.");
+            customToast({
+                severity: "error",
+                summary: "Oops!",
+                detail: "Please select From City, To City and Date.",
+                life: 3000,
+                sticky: false,
+                closable: true,
+            });
+
             return;
         }
 
@@ -79,10 +87,12 @@ const SearchLayout = () => {
         const query = `from=${encodeURIComponent(fromCityName)}&to=${encodeURIComponent(toCityName)}&date=${encodeURIComponent(journeyDate)}`;
 
         try {
-            // const response = await api.get(`/search?${query}`);
+            window.loadingStart();  // START loader here
+
             const response = await api.get(`/buses?${query}`);
             const buses = response.data;
-            console.log("buses data", buses)
+            console.log("buses data", buses);
+
             if (!buses || buses.length === 0) {
                 customToast({
                     severity: "error",
@@ -92,16 +102,21 @@ const SearchLayout = () => {
                     sticky: false,
                     closable: true,
                 });
+                window.loadingEnd();  // STOP loader here before return
                 return;
             }
-            //    dispatch(SET_SEARCH_RESULTS(buses, fromCityName, toCityName));
+
             dispatch(setSearchResults(buses, fromCityName, toCityName));
             navigate('/buses');
-            // setBuses(buses);
+
+            window.loadingEnd();  // STOP loader here
+
         } catch (error) {
             console.error("Search error:", error);
+            window.loadingEnd();  // STOP loader in case of error
         }
     };
+
 
     const handleSwap = () => {
         setFormData((prev) => ({
@@ -202,7 +217,7 @@ const SearchLayout = () => {
                     {/* TO */}
                     <div className="flex-grow-1 d-flex flex-column">
                         <h4 className="fw-semibold text-secondary mb-2">TO</h4>
-                    <div className="input-group gap-5">
+                        <div className="input-group gap-5">
                             <span className="input-group-text border-0 d-flex align-items-center gap-1" style={{ backgroundColor: 'transparent', cursor: 'pointer' }}>
                                 <FaBus size={18} />
                                 <FaWalking size={14} />

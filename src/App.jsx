@@ -13,7 +13,13 @@ const App = () => {
   const [config] = useState(null);
 
   useEffect(() => {
+    window.loadingStart?.();
     window.scrollTo(0, 0);
+    const timer = setTimeout(() => {
+      window.loadingEnd?.();
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, [pathname]);
 
   return (
@@ -21,8 +27,8 @@ const App = () => {
       <Route path="/" element={<Layout config={config} />}>
         <Route index element={<Home config={config} />} />
         <Route path="buses" element={<Buses />} />
-        <Route path="login" element={<Login/>}/>
-        <Route path="register" element={<Register/>}/>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path="search" element={<SearchLayout />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
