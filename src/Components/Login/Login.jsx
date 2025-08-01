@@ -8,7 +8,7 @@ import {
     OPPS_MSG,
     SUCCESS_MSG,
     SERVER_ERROR,
-} from "../../utils/Strings";
+} from "../../utils/Strings.js";
 
 import {
     sanitizeEmail,
@@ -163,8 +163,54 @@ const Login = () => {
 
         setErrors(tempErrors);
         if (Object.keys(tempErrors).length === 0) {
+            //     try {
+            //         const response = await api.post('/login', formData);
+            //         dispatch({
+            //             type: SET_LOGIN_DATA,
+            //             payload: {
+            //                 token: response.data.token,
+            //                 email: response.data.user.email,
+            //                 user: response.data.user,
+            //             },
+            //         });
+            //         customToast({
+            //             severity: "success",
+            //             summary: SUCCESS_MSG,
+            //             detail: "Login successful.",
+            //             life: 3000,
+            //             sticky: false,
+            //             closable: true,
+            //         });
+
+            //         navigate("/")
+            //     } catch (error) {
+            //         console.log("Login Error:", error);
+            //         if (error.response) {
+            //             console.log("Backend Error:", error.response.data);
+            //         } else if (error.request) {
+            //             console.log("No response received:", error.request);
+            //         } else {
+            //             console.log("Other Error:", error.message);
+            //         }
+
+            //         customToast({
+            //             severity: "error",
+            //             summary: OPPS_MSG,
+            //             detail: error.message || SERVER_ERROR,
+            //             life: 3000,
+            //             sticky: false,
+            //             closable: true,
+            //         });
+            //     }
+
+            // }
             try {
                 const response = await api.post('/login', formData);
+                console.log("Login response:", response.data);
+
+                if (!response.data.token || !response.data.user) {
+                    throw new Error("Incomplete response from server");
+                }
 
                 dispatch({
                     type: SET_LOGIN_DATA,
@@ -174,7 +220,8 @@ const Login = () => {
                         user: response.data.user,
                     },
                 });
-                 customToast({
+
+                customToast({
                     severity: "success",
                     summary: SUCCESS_MSG,
                     detail: "Login successful.",
@@ -183,20 +230,19 @@ const Login = () => {
                     closable: true,
                 });
 
-                navigate("/")
+                navigate("/");
             } catch (error) {
+                console.log("Login Error:", error);
+                console.log("Error Response:", error.response?.data);
+
                 customToast({
                     severity: "error",
                     summary: OPPS_MSG,
-                    detail: error.response?.data?.message || SERVER_ERROR,
+                    detail: error.response?.data?.message || error.message || SERVER_ERROR,
                     life: 3000,
                     sticky: false,
                     closable: true,
                 });
-
-                if (error.response?.data?.message) {
-                    setErrors({ general: error.response.data.message });
-                }
             }
         }
     };

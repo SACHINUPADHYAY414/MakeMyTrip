@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { Toast } from "primereact/toast";
 
-// Create Context for Toastr
 const ToastrContext = createContext(null);
 
 export const ToastrProvider = ({ children }) => {
@@ -60,8 +59,11 @@ export const ToastrProvider = ({ children }) => {
 
   return (
     <ToastrContext.Provider value={{ customToast, clearToast }}>
-      {/* Toast container remains, but is hidden when empty */}
-      <Toast ref={toastRef} className="p-toast-container" />
+      <Toast
+        ref={toastRef}
+        className="p-toast-container"
+      />
+
       {children}
     </ToastrContext.Provider>
   );

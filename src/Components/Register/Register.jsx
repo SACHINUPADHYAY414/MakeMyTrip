@@ -38,8 +38,10 @@ import {
     start_with_char,
     start_with_char_or_number,
 } from "../../utils/allValidation";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+    const navigate = useNavigate();
     const { customToast } = useToastr();
     const [formData, setFormData] = useState({
         title: "",
@@ -49,10 +51,11 @@ const Register = () => {
         dateOfBirth: "",
         presentAddressLine1: "",
         presentPincode: "",
-        presentCountry: "3",
+        presentCountry: "1",
         presentState: "",
         presentCity: "",
         email: "",
+        mobileNumber: "",
         password: ""
     });
 
@@ -450,7 +453,7 @@ const Register = () => {
                     }
                     break;
                 case "presentPincode":
-                    if (!validateLength(value, 6)) {
+                    if (!validateLength(value, 6, 6)) {
                         error = ERROR_MUST_LENGTH(6);
                     }
                     break;
@@ -541,9 +544,24 @@ const Register = () => {
             });
             return;
         }
+        const mapToBackendKeys = (data) => ({
+            title: data.title,
+            first_name: data.firstName,
+            last_name: data.lastName,
+            gender: data.gender,
+            date_of_birth: data.dateOfBirth,
+            present_address_line1: data.presentAddressLine1,
+            present_pincode: data.presentPincode,
+            present_country: data.presentCountry,
+            present_state: data.presentState,
+            present_city: data.presentCity,
+            email: data.email,
+            password: data.password,
+        });
 
         try {
-            await api.post("/register", formData);
+            // await api.post("/register", formData);
+            await api.post("/register", mapToBackendKeys(formData));
 
             customToast({
                 severity: "success",
@@ -554,7 +572,6 @@ const Register = () => {
                 closable: true,
             });
 
-            // Reset form with initial or default values
             setFormData({
                 title: "",
                 firstName: "",
@@ -563,13 +580,14 @@ const Register = () => {
                 dateOfBirth: "",
                 presentAddressLine1: "",
                 presentPincode: "",
-                presentCountry: "3", // Default to India as initial state
+                presentCountry: "3",
                 presentState: "",
                 presentCity: "",
                 email: "",
                 password: "",
             });
             setErrors({});
+            navigate("/login")
         } catch (err) {
             customToast({
                 severity: "error",
@@ -675,11 +693,12 @@ const Register = () => {
     return (
 
         <Form onSubmit={handleSubmit} noValidate>
-            <div className="container d-flex justify-content-center align-items-center min-vh-100">
+            <div className="container d-flex justify-content-center align-items-center my-3"
+                style={{ minHeight: '87vh' }}>
                 <div className="card shadow p-4 w-100" style={{ maxWidth: "700px" }}>
                     <h3 className="text-center mb-4 fw-bold">Register</h3>
 
-                    <div className="row">
+                    <div className="row g-2">
                         {formFields.map(returnControls)}
                     </div>
 

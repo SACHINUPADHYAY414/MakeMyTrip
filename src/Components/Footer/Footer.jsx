@@ -107,7 +107,7 @@ const footerData = {
     { href: "#", imgSrc: "/assets/AppStore.png", alt: "App Store" }
   ],
   qrCode: "/assets/Qr.png",
-  copyright: "© 2025 MakeMyTrip. All rights reserved."
+  copyright: "© 2025 MakeMyTrip.com. All rights reserved."
 };
 
 const Footer = () => {
@@ -183,7 +183,14 @@ const Footer = () => {
           <div className="row align-items-center">
             <div className="col-md-6">
               <div className="d-flex flex-column align-items-start">
-                <span className="fw-bold h5">MakeMyTrip</span>
+                <div className="d-flex align-items-center">
+                  <h5 className="mb-0 me-2">
+                    <span className="fw-bold">MakeMyTrip</span>
+                    <span style={{ fontSize: "0.7rem", fontWeight: "bold" }}>
+                      .com
+                    </span>
+                  </h5>
+                </div>
                 <p className="small text-white-50 mb-0">
                   {footerData.description}
                 </p>
@@ -224,11 +231,31 @@ const Footer = () => {
           <hr className="border-secondary my-1" />
         </div>
 
+        {/* Mobile copyright */}
         <div className="text-center text-white d-block d-md-none py-2">
           {footerData.copyright}
+          <div className="small text-white-50 ms-3 d-flex">
+            Created by <NavLink
+              to="https://portfoliosachinkumar.vercel.app/"
+              className="ms-1 text-white-50 text-decoration-none nav-link"
+            >
+              Sachin Upadhyay
+            </NavLink>
+          </div>
         </div>
-        <div className="text-center text-white d-none d-md-block py-2 pt-0">
-          {footerData.copyright}
+
+        {/* Desktop copyright */}
+        <div className="d-none d-md-flex justify-content-center align-items-center text-white py-2">
+          <div>{footerData.copyright}</div>
+          <div className="small text-white-50 ms-3 d-flex">
+            Created by <NavLink
+              to="https://portfoliosachinkumar.vercel.app/"
+              className="ms-1 text-white-50 text-decoration-none nav-link"
+            >
+              Sachin Upadhyay
+            </NavLink>
+
+          </div>
         </div>
       </div>
     </footer>

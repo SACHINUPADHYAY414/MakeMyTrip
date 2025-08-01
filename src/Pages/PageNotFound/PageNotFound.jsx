@@ -1,12 +1,10 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PageNotFound = () => {
+    const navigate = useNavigate();
+
     const handleGoBack = () => {
-        if (document.referrer) {
-            window.location.href = document.referrer;
-        } else {
-            window.location.href = '/';
-        }
+        navigate('/');
     };
 
     return (
@@ -15,7 +13,7 @@ const PageNotFound = () => {
                 <h1 className="display-4">404 - Page Not Found</h1>
                 <p className="lead">The page you are looking for does not exist.</p>
                 <button onClick={handleGoBack} className="btn btn-primary mt-3">
-                    Go Back
+                    Go to Home
                 </button>
             </div>
         </div>
