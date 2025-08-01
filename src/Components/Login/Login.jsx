@@ -8,7 +8,7 @@ import {
     OPPS_MSG,
     SUCCESS_MSG,
     SERVER_ERROR,
-} from "../../Utils/Strings.js";
+} from "../../utils/strings.js";
 
 import {
     sanitizeEmail,
@@ -17,7 +17,7 @@ import {
     verifyDoubleSpace,
     verifyStartingOrEndingCharacters, start_with_char_or_number,
     sanitizeInput
-} from "../../Utils/allValidation";
+} from "../../utils/allValidation.js";
 import api from "../../Action/Api";
 import { useToastr } from "../Toastr/ToastrProvider";
 import { useNavigate } from "react-router-dom";

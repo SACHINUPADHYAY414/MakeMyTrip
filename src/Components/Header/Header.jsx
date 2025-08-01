@@ -17,7 +17,7 @@ import { persistor } from "../../Redux/store";
 import { CLEAR_LOGIN_DATA } from "../../Redux/authSlice";
 import { IoMdLogOut } from "react-icons/io";
 import { useToastr } from "../Toastr/ToastrProvider";
-import { SUCCESS_MSG } from "../../Utils/Strings";
+import { SUCCESS_MSG } from "../../utils/strings";
 import { RiAccountCircleLine } from "react-icons/ri";
 
 const NavbarEMT = () => {
