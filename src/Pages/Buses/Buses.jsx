@@ -103,7 +103,6 @@ const Buses = () => {
     setSelectedSeatDetails(bus);
   };
 
-
   const busDetails = {
     lowerBerths: Array.from({ length: 10 }, (_, i) => ({
       type: "HORIZONTAL_SLEEPER",
@@ -275,6 +274,41 @@ const Buses = () => {
 
     return true;
   });
+  const getFilterErrorMessage = () => {
+    if (buses.length === 0) {
+      return "No buses available at all for this route.";
+    }
+
+    if (filters.ac && !filters.nonAc && buses.every(bus => !bus.is_ac)) {
+      return "No AC buses available.";
+    }
+
+    if (!filters.ac && filters.nonAc && buses.every(bus => bus.is_ac)) {
+      return "No Non-AC buses available.";
+    }
+
+    if (filters.seater && buses.every(bus => bus.is_sleeper)) {
+      return "No seater buses available.";
+    }
+
+    if (filters.sleeper && buses.every(bus => !bus.is_sleeper)) {
+      return "No sleeper buses available.";
+    }
+
+    if (filters.departureTime && filteredBuses.length === 0) {
+      return "No buses available for the selected departure time.";
+    }
+
+    if (filters.boardingPoints.length > 0 && filteredBuses.length === 0) {
+      return "No buses found with the selected boarding point(s).";
+    }
+
+    if (filteredBuses.length === 0) {
+      return "No buses match the selected filters.";
+    }
+
+    return null;
+  };
 
   const handleBooking = () => {
   };
@@ -823,12 +857,17 @@ const Buses = () => {
           ) : (
             <div className="text-center my-5">
               <h4 className="fw-bold text-danger">
-                No Buses Found for Selected Date
+                {getFilterErrorMessage() || (buses.length === 0 ? "Not found" : "")}
               </h4>
               <p className="text-muted">
-                Try selecting a different date above.
+                {getFilterErrorMessage()
+                  ? "Please change filter."
+                  : buses.length === 0
+                    ? "No buses found for the selected date."
+                    : ""}
               </p>
             </div>
+
           )}
         </div>
       </div>
