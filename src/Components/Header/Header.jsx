@@ -31,7 +31,7 @@ const NavbarEMT = () => {
 
   const navigate = useNavigate();
   const handleLoginClick = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   const handleLogout = () => {
@@ -45,6 +45,7 @@ const NavbarEMT = () => {
       sticky: false,
       closable: true
     });
+     navigate("/");
   };
 
   useEffect(() => {
