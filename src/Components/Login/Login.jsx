@@ -17,7 +17,7 @@ import {
     verifyDoubleSpace,
     verifyStartingOrEndingCharacters, start_with_char_or_number,
     sanitizeInput
-} from "../../utils/allValidation";
+} from "../../Utils/allValidation";
 import api from "../../Action/Api";
 import { useToastr } from "../Toastr/ToastrProvider";
 import { useNavigate } from "react-router-dom";
