@@ -221,17 +221,16 @@ const Buses = () => {
     gps: false,
     departureTime: "",
     boardingPoints: [],
-    price: [minPrice, maxPrice],
+    price: [minPrice, maxPrice]
   });
   const [priceRange, setPriceRange] = useState([0, 0]);
 
   useEffect(() => {
     if (buses.length > 0) {
-
       setPriceRange([minPrice, maxPrice]);
       setFilters((prev) => ({
         ...prev,
-        price: [minPrice, maxPrice],
+        price: [minPrice, maxPrice]
       }));
     }
   }, [buses]);
@@ -256,37 +255,38 @@ const Buses = () => {
         (filters.departureTime === "6to12" && (hour < 6 || hour >= 12)) ||
         (filters.departureTime === "12to18" && (hour < 12 || hour >= 18)) ||
         (filters.departureTime === "after18" && hour < 18)
-      ) return false;
+      )
+        return false;
     }
     if (
       filters.boardingPoints.length > 0 &&
       !bus.boarding_points?.some((bp) =>
         filters.boardingPoints.includes(bp.location)
       )
-    ) return false;
+    )
+      return false;
 
     return true;
   });
-
 
   const getFilterErrorMessage = () => {
     if (buses.length === 0) {
       return "No buses available at all for this route.";
     }
 
-    if (filters.ac && !filters.nonAc && buses.every(bus => !bus.is_ac)) {
+    if (filters.ac && !filters.nonAc && buses.every((bus) => !bus.is_ac)) {
       return "No AC buses available.";
     }
 
-    if (!filters.ac && filters.nonAc && buses.every(bus => bus.is_ac)) {
+    if (!filters.ac && filters.nonAc && buses.every((bus) => bus.is_ac)) {
       return "No Non-AC buses available.";
     }
 
-    if (filters.seater && buses.every(bus => bus.is_sleeper)) {
+    if (filters.seater && buses.every((bus) => bus.is_sleeper)) {
       return "No seater buses available.";
     }
 
-    if (filters.sleeper && buses.every(bus => !bus.is_sleeper)) {
+    if (filters.sleeper && buses.every((bus) => !bus.is_sleeper)) {
       return "No sleeper buses available.";
     }
 
@@ -305,8 +305,7 @@ const Buses = () => {
     return null;
   };
 
-  const handleBooking = () => {
-  };
+  const handleBooking = () => {};
 
   return (
     <div className="container mt-4">
@@ -336,7 +335,7 @@ const Buses = () => {
                       gps: false,
                       departureTime: "",
                       boardingPoints: [],
-                      price: [minPrice, maxPrice],
+                      price: [minPrice, maxPrice]
                     });
                   }}
                 >
@@ -356,7 +355,10 @@ const Buses = () => {
                   <i className="bi bi-chevron-down"></i>
                 </div>
                 <div className="collapse show" id="liveTracking">
-                  <label className="border rounded p-2 d-flex align-items-center gap-2 mt-2" style={{ cursor: "pointer" }}>
+                  <label
+                    className="border rounded p-2 d-flex align-items-center gap-2 mt-2"
+                    style={{ cursor: "pointer" }}
+                  >
                     <input
                       type="checkbox"
                       className="form-check-input mb-1"
@@ -369,7 +371,6 @@ const Buses = () => {
                     <i className="bi bi-geo-alt-fill ms-auto"></i>
                   </label>
                 </div>
-
               </div>
               {/* PRICE FILTER */}
               <div className="mb-1 px-2">
@@ -398,7 +399,7 @@ const Buses = () => {
                       onChange={(e) =>
                         setFilters((prev) => ({
                           ...prev,
-                          price: [Number(e.target.value), prev.price[1]],
+                          price: [Number(e.target.value), prev.price[1]]
                         }))
                       }
                       className="form-range mt-2"
@@ -406,7 +407,6 @@ const Buses = () => {
                   </div>
                 </div>
               </div>
-
 
               {/* Filter: Bus Type */}
               <div className="mb-1 px-2">
@@ -422,7 +422,10 @@ const Buses = () => {
                 <div className="collapse show" id="busType">
                   <div className="d-flex gap-2 mt-2">
                     {/* AC Option */}
-                    <label className="border rounded p-2 flex-fill d-flex align-items-center gap-2" style={{ cursor: "pointer" }}>
+                    <label
+                      className="border rounded p-2 flex-fill d-flex align-items-center gap-2"
+                      style={{ cursor: "pointer" }}
+                    >
                       <input
                         type="checkbox"
                         className="form-check-input mb-1"
@@ -436,7 +439,10 @@ const Buses = () => {
                     </label>
 
                     {/* Non AC Option */}
-                    <label className="border rounded p-2 flex-fill d-flex align-items-center gap-2" style={{ cursor: "pointer" }}>
+                    <label
+                      className="border rounded p-2 flex-fill d-flex align-items-center gap-2"
+                      style={{ cursor: "pointer" }}
+                    >
                       <input
                         type="checkbox"
                         className="form-check-input mb-1"
@@ -451,10 +457,8 @@ const Buses = () => {
                       <span className="form-check-label">Non AC</span>
                       <i className="bi bi-fan ms-auto"></i>
                     </label>
-
                   </div>
                 </div>
-
               </div>
 
               {/* Filter: Seat Type */}
@@ -471,7 +475,10 @@ const Buses = () => {
                 <div className="collapse show" id="seatType">
                   <div className="d-flex gap-2 mt-2">
                     {/* Sleeper */}
-                    <label className="border rounded p-2 flex-fill d-flex align-items-center gap-2" style={{ cursor: "pointer" }}>
+                    <label
+                      className="border rounded p-2 flex-fill d-flex align-items-center gap-2"
+                      style={{ cursor: "pointer" }}
+                    >
                       <input
                         type="checkbox"
                         className="form-check-input mb-1"
@@ -488,7 +495,10 @@ const Buses = () => {
                     </label>
 
                     {/* Seater */}
-                    <label className="border rounded p-2 flex-fill d-flex align-items-center gap-2" style={{ cursor: "pointer" }}>
+                    <label
+                      className="border rounded p-2 flex-fill d-flex align-items-center gap-2"
+                      style={{ cursor: "pointer" }}
+                    >
                       <input
                         type="checkbox"
                         className="form-check-input mb-1"
@@ -501,13 +511,19 @@ const Buses = () => {
                         }
                       />
                       <span className="form-check-label">Seater</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="ms-auto" viewBox="0 0 24 24">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        className="ms-auto"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M7 13h10v2H7v-2zm0-9h10c1.1 0 2 .9 2 2v8H5V6c0-1.1.9-2 2-2zm0 14h10v2H7v-2z" />
                       </svg>
                     </label>
                   </div>
                 </div>
-
               </div>
 
               {/* Filter: Departure */}
@@ -779,10 +795,15 @@ const Buses = () => {
                         <div className="col-md-6 mb-3">
                           <div className="berth-title">Lower Berth</div>
                           <div className="seat-grid mb-3">
-                            {(bus.bus_details?.lowerBerths || busDetails.lowerBerths)?.map((seat, idx) => (
+                            {(
+                              bus.bus_details?.lowerBerths ||
+                              busDetails.lowerBerths
+                            )?.map((seat, idx) => (
                               <div
                                 key={idx}
-                                className={`seat-slot ${selectedSeat === seat.id ? 'selected' : ''}`}
+                                className={`seat-slot ${
+                                  selectedSeat === seat.id ? "selected" : ""
+                                }`}
                                 onClick={() => handleSeatSelect(seat.id)}
                                 style={{ cursor: "pointer" }}
                               >
@@ -793,10 +814,15 @@ const Buses = () => {
 
                           <div className="berth-title">Upper Berth</div>
                           <div className="seat-grid">
-                            {(bus.bus_details?.upperBerths || busDetails.upperBerths)?.map((seat, idx) => (
+                            {(
+                              bus.bus_details?.upperBerths ||
+                              busDetails.upperBerths
+                            )?.map((seat, idx) => (
                               <div
                                 key={idx}
-                                className={`seat-slot ${selectedSeat === seat.id ? 'selected' : ''}`}
+                                className={`seat-slot ${
+                                  selectedSeat === seat.id ? "selected" : ""
+                                }`}
                                 onClick={() => handleSeatSelect(seat.id)}
                                 style={{ cursor: "pointer" }}
                               >
@@ -806,38 +832,60 @@ const Buses = () => {
                           </div>
                           {selectedSeat && (
                             <div className="text-end mt-3">
-                              <button className="btn btn-primary" onClick={handleBooking}>
+                              <button
+                                className="btn btn-primary"
+                                onClick={handleBooking}
+                              >
                                 Book Now
                               </button>
                             </div>
                           )}
-
                         </div>
                         <div className="col-md-6 d-flex flex-column justify-content-start">
                           {/* Boarding Points */}
-                          <div className="berth-title mb-2">Boarding Points</div>
+                          <div className="berth-title mb-2">
+                            Boarding Points
+                          </div>
                           <ul className="list-group">
-                            {(Array.isArray(bus.boarding_points) && bus.boarding_points.length > 0
+                            {(Array.isArray(bus.boarding_points) &&
+                            bus.boarding_points.length > 0
                               ? bus.boarding_points
                               : busDetails.pickupPoints
                             )?.map((point, idx) => (
                               <li key={idx} className="list-group-item">
-                                <strong>{point.time || "Time not available"}</strong> – {point.location || "Location not available"}
-                                {point.description && <div className="text-muted small">{point.description}</div>}
+                                <strong>
+                                  {point.time || "Time not available"}
+                                </strong>{" "}
+                                – {point.location || "Location not available"}
+                                {point.description && (
+                                  <div className="text-muted small">
+                                    {point.description}
+                                  </div>
+                                )}
                               </li>
                             ))}
                           </ul>
 
                           {/* Drop Points */}
-                          <div className="berth-title mb-2">Dropping Points</div>
+                          <div className="berth-title mb-2">
+                            Dropping Points
+                          </div>
                           <ul className="list-group">
-                            {(Array.isArray(bus.drop_points) && bus.drop_points.length > 0
+                            {(Array.isArray(bus.drop_points) &&
+                            bus.drop_points.length > 0
                               ? bus.drop_points
                               : busDetails.dropPoints
                             )?.map((point, idx) => (
                               <li key={idx} className="list-group-item">
-                                <strong>{point.time || "Time not available"}</strong> – {point.location || "Location not available"}
-                                {point.description && <div className="text-muted small">{point.description}</div>}
+                                <strong>
+                                  {point.time || "Time not available"}
+                                </strong>{" "}
+                                – {point.location || "Location not available"}
+                                {point.description && (
+                                  <div className="text-muted small">
+                                    {point.description}
+                                  </div>
+                                )}
                               </li>
                             ))}
                           </ul>
@@ -845,24 +893,23 @@ const Buses = () => {
                       </div>
                     </div>
                   )}
-
                 </div>
               );
             })
           ) : (
             <div className="text-center my-5">
               <h4 className="fw-bold text-danger">
-                {getFilterErrorMessage() || (buses.length === 0 ? "Not found" : "")}
+                {getFilterErrorMessage() ||
+                  (buses.length === 0 ? "Not found" : "")}
               </h4>
               <p className="text-muted">
                 {getFilterErrorMessage()
                   ? "Please change filter."
                   : buses.length === 0
-                    ? "No buses found for the selected date."
-                    : ""}
+                  ? "No buses found for the selected date."
+                  : ""}
               </p>
             </div>
-
           )}
         </div>
       </div>

@@ -235,7 +235,8 @@ const Footer = () => {
         <div className="text-center text-white d-block d-md-none py-2">
           {footerData.copyright}
           <div className="small text-white-50 ms-3 d-flex">
-            Created by <NavLink
+            Created by{" "}
+            <NavLink
               to="https://portfoliosachinkumar.vercel.app/"
               className="ms-1 text-white-50 text-decoration-none nav-link"
             >
@@ -248,13 +249,13 @@ const Footer = () => {
         <div className="d-none d-md-flex justify-content-center align-items-center text-white py-2">
           <div>{footerData.copyright}</div>
           <div className="small text-white-50 ms-3 d-flex">
-            Created by <NavLink
+            Created by{" "}
+            <NavLink
               to="https://portfoliosachinkumar.vercel.app/"
               className="ms-1 text-white-50 text-decoration-none nav-link"
             >
               Sachin Upadhyay
             </NavLink>
-
           </div>
         </div>
       </div>

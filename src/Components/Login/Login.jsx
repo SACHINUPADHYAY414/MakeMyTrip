@@ -263,26 +263,27 @@ const Login = () => {
         );
     };
 
-    return (<div className="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+    return (
+        <div className="container d-flex justify-content-center align-items-center my-3"
+            style={{ minHeight: '87vh' }}>
+            <div className="card shadow p-4" style={{ maxWidth: "420px", width: "100%" }}>
+                <h3 className="text-center mb-4 fw-bold" style={{ fontFamily: "Poppins" }}>
+                    Login
+                </h3>
+                <form onSubmit={handleSubmit}>
+                    {fields.map((field) => returnControls(field))}
+                    <div className="d-grid mt-3">
+                        <button type="submit" className="btn btn-primary fw-semibold">
+                            Login
+                        </button>
+                    </div>
+                </form>
+                <p className="text-center mt-3 mb-0" style={{ fontSize: "0.9rem" }}>
+                    Don't have an account? <a href="/register" className="text-primary fw-semibold text-decoration-none">Register</a>
+                </p>
 
-        <div className="card shadow p-4" style={{ maxWidth: "420px", width: "100%" }}>
-            <h3 className="text-center mb-4 fw-bold" style={{ fontFamily: "Poppins" }}>
-                Login
-            </h3>
-            <form onSubmit={handleSubmit}>
-                {fields.map((field) => returnControls(field))}
-                <div className="d-grid mt-3">
-                    <button type="submit" className="btn btn-primary fw-semibold">
-                        Login
-                    </button>
-                </div>
-            </form>
-            <p className="text-center mt-3 mb-0" style={{ fontSize: "0.9rem" }}>
-                Don't have an account? <a href="/register" className="text-primary fw-semibold text-decoration-none">Register</a>
-            </p>
-
+            </div>
         </div>
-    </div>
     );
 };
 

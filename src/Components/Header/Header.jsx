@@ -19,24 +19,38 @@ import { IoMdLogOut } from "react-icons/io";
 import { useToastr } from "../Toastr/ToastrProvider";
 import { SUCCESS_MSG } from "../../Utils/strings";
 import { RiAccountCircleLine } from "react-icons/ri";
+import * as bootstrap from "bootstrap";
 
 const NavbarEMT = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const dispatch = useDispatch();
   const { customToast } = useToastr();
   const user = useSelector((state) => state.login?.login_data?.user);
-  console.log("user", user);
+
   const loginData = useSelector((state) => state.login?.login_data);
   const isLoggedIn = !!loginData?.token;
 
   const navigate = useNavigate();
   const handleLoginClick = () => {
+    closeOffcanvas();
     navigate("/login");
+  };
+
+  const handleRegisterClick = () => {
+    closeOffcanvas();
+    navigate("/register");
+  };
+
+  const closeOffcanvas = () => {
+    const offcanvasElement = document.getElementById("offcanvasNavbar");
+    const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+    bsOffcanvas?.hide();
   };
 
   const handleLogout = () => {
     dispatch({ type: CLEAR_LOGIN_DATA });
     persistor.purge();
+    closeOffcanvas();
     customToast({
       severity: "success",
       summary: SUCCESS_MSG,
@@ -45,7 +59,7 @@ const NavbarEMT = () => {
       sticky: false,
       closable: true
     });
-     navigate("/");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -75,8 +89,9 @@ const NavbarEMT = () => {
   return (
     <>
       <div
-        className={`emt-navbar sticky-top bg-white py-2 pb-0 ${isOffcanvasOpen ? "z-lower" : "z-top"
-          }`}
+        className={`emt-navbar sticky-top bg-white py-2 pb-0 ${
+          isOffcanvasOpen ? "z-lower" : "z-top"
+        }`}
       >
         <div className="container">
           {/* Top Bar */}
@@ -109,10 +124,13 @@ const NavbarEMT = () => {
                 <span>💼 EMTDesk</span>
                 <span>💎 EMTRoyale</span>
                 <span>✈️ Explore Bharat</span>
-                <span className="fw-bold mb-1" style={{
-                  marginRight: "-0.8rem",
-                  fontSize: "1.1rem",
-                }}>
+                <span
+                  className="fw-bold mb-1"
+                  style={{
+                    marginRight: "-0.8rem",
+                    fontSize: "1.1rem"
+                  }}
+                >
                   {user?.first_name} {user?.last_name}
                 </span>
                 {isLoggedIn ? (
@@ -134,7 +152,7 @@ const NavbarEMT = () => {
                           className="dropdown-item d-flex align-items-center fw-bold gap-2"
                           onClick={handleLogout}
                         >
-                          <IoMdLogOut/> Logout
+                          <IoMdLogOut /> Logout
                         </button>
                       </li>
                     </ul>
@@ -306,7 +324,6 @@ const NavbarEMT = () => {
                 ? `${user?.first_name ?? ""} ${user?.last_name ?? ""}`.trim()
                 : "Home"}
             </span>
-
           </h5>
           <button
             type="button"
@@ -316,13 +333,14 @@ const NavbarEMT = () => {
           ></button>
         </div>
         <div className="offcanvas-body position-relative">
-
           <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li className="nav-item">
               <NavLink
                 to="/flights"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -332,8 +350,10 @@ const NavbarEMT = () => {
             <li className="nav-item">
               <NavLink
                 to="/hotels"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -343,8 +363,10 @@ const NavbarEMT = () => {
             <li className="nav-item">
               <NavLink
                 to="/bus"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -354,8 +376,10 @@ const NavbarEMT = () => {
             <li className="nav-item">
               <NavLink
                 to="/trains"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -365,8 +389,10 @@ const NavbarEMT = () => {
             <li className="nav-item">
               <NavLink
                 to="/cabs"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -376,8 +402,10 @@ const NavbarEMT = () => {
             <li className="nav-item">
               <NavLink
                 to="/activities"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -387,8 +415,10 @@ const NavbarEMT = () => {
             <li className="nav-item">
               <NavLink
                 to="/holidays"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -398,8 +428,10 @@ const NavbarEMT = () => {
             <li className="nav-item">
               <NavLink
                 to="/offers"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -409,8 +441,10 @@ const NavbarEMT = () => {
             <li className="nav-item">
               <NavLink
                 to="/more"
+                onClick={closeOffcanvas}
                 className={({ isActive }) =>
-                  `nav-NavLink ${isActive ? "text-primary fw-semibold" : "text-secondary"
+                  `nav-NavLink ${
+                    isActive ? "text-primary fw-semibold" : "text-secondary"
                   }`
                 }
               >
@@ -419,14 +453,29 @@ const NavbarEMT = () => {
             </li>
           </ul>
         </div>
-        {user && (
+
+        {user ? (
           <div className="position-absolute bottom-0 end-0 p-3">
             <FaSignOutAlt
               className="text-danger fs-4 cursor-pointer"
               onClick={handleLogout}
             />
           </div>
-
+        ) : (
+          <div className="position-absolute bottom-0 w-100 p-3">
+            <button
+              className="btn btn-primary w-100"
+              onClick={handleLoginClick}
+            >
+              Login
+            </button>
+            <button
+              className="btn btn-primary w-100 mt-2"
+              onClick={handleRegisterClick}
+            >
+              Register
+            </button>
+          </div>
         )}
       </div>
     </>
