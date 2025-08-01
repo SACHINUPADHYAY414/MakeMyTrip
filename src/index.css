@@ -506,11 +506,7 @@ li.nav-item:hover a.nav-link {
 
 label:focus,
 button:focus,
-input:focus {
-  outline: none !important;
-  box-shadow: none !important;
-  border: none !important;
-}
+
 .berth-title {
   font-weight: 600;
   font-size: 1rem;
