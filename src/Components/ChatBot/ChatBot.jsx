@@ -46,6 +46,7 @@ const ChatBot = () => {
         resetInactivityTimeout();
     };
 
+    
     const handleSend = async () => {
         if (!input.trim()) return;
 
