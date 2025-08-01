@@ -8,7 +8,7 @@ import {
     OPPS_MSG,
     SUCCESS_MSG,
     SERVER_ERROR,
-} from '@/utils/Strings'
+} from '@/Utils/Strings'
 
 import {
     sanitizeEmail,
