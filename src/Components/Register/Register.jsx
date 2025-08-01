@@ -15,7 +15,7 @@ import {
     DOB_RANGE_MESSAGE,
     ERROR_PASTE_DATA,
     ERROR_MUST_LENGTH,
-} from "../../utils/strings";
+} from "../../utils/strings.js";
 
 import CustomInputField from "../CustomInput/CustomInputField";
 import { Form } from "react-bootstrap";
@@ -37,7 +37,7 @@ import {
     allowOnlyNumbersFilter,
     start_with_char,
     start_with_char_or_number,
-} from "../../utils/allValidation";
+} from "../../utils/allValidation.js";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
