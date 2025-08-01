@@ -7,7 +7,7 @@ A** full-stack** ** web application** built with **React**, **Redux**, **Node.js
 - 🔐 **User Authentication** - Login and register with secure credentials (JWT & bcrypt)
 - 🚌  **City-to-City Bus Search** — Easily browse available buses between cities
 - 🎟️ **Seat Booking System** — Select and book available seats in real-time
-- 🔍 **Filter Functionality ** — Filter buses by city, time, availability, and more
+- 🔍 **Filter Functionality** — Filter buses by city, time, availability, and more
 - 📦 **State Management** — Managed using Redux and Redux Toolkit
 - 🌐 **RESTful API** — Node.js & Express backend with organized routes and controllers
 - 🗄️ **PostgreSQL Database** — Stores users, buses, bookings, and seat availability
