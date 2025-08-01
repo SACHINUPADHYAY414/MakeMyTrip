@@ -10,7 +10,6 @@ import {
     SERVER_ERROR,
 } from "../../utils/strings.js";
 
-
 import {
     sanitizeEmail,
     verifyEmail,
