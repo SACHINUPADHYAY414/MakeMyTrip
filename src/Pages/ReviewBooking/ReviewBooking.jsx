@@ -402,6 +402,8 @@ const BusBookingReview = () => {
         detail: error.message || SERVER_ERROR,
         life: 3000
       });
+
+      setShowTicketModal(false);
     }
   };
 
