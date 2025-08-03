@@ -392,9 +392,11 @@ const BusBookingReview = () => {
         detail: "Your ticket will be sent to this email address.",
         life: 3000
       });
-
       setShowTicketModal(true);
-      navigate("/");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 5000); 
     } catch (error) {
       setShowTicketModal(false);
       customToast({
