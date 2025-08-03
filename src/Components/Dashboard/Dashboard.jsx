@@ -27,7 +27,7 @@ const dashboardItems = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/booking");
+    navigate("/search");
   };
 
   return (

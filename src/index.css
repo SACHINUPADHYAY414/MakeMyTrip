@@ -25,6 +25,9 @@ body::before {
   z-index: -1;
   pointer-events: none;
 }
+.search-bg{
+  background-color: #05203c;
+}
 
 /* NavbarEMT.css */
 .emt-navbar {
@@ -447,10 +450,10 @@ body::before {
 }
 
 /* Hide the default datepicker icon in different browsers */
-input[type="date"]::-webkit-calendar-picker-indicator {
+/* input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
-}
+} */
 
 input[type="date"]::-moz-calendar-picker-indicator {
   display: none;

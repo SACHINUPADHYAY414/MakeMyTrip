@@ -1,12 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { FaBus, FaWalking, FaCalendarAlt } from "react-icons/fa";
 import api from "../../Action/Api";
 import { MdSwapHoriz } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setSearchResults } from "../../Redux/Action/searchReducer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useToastr } from "../Toastr/ToastrProvider";
-import { useLocation } from "react-router-dom";
+
+const overlayStyle = {
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  zIndex: 1,
+  minHeight: "83vh"
+};
 
 const SearchLayout = () => {
   const inputRef = useRef(null);
@@ -14,6 +19,9 @@ const SearchLayout = () => {
   const [cities, setCities] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [showOverlay, setShowOverlay] = useState(true);
+
   const getTodayDate = () => {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -35,19 +43,15 @@ const SearchLayout = () => {
         const cityList = response.data || [];
         setCities(cityList);
 
-        // Find New Delhi and Dwarka by name and set default selection
         const newDelhi = cityList.find(
-          (city) => city.name.toLowerCase() === "new delhi"
+          (c) => c.name.toLowerCase() === "new delhi"
         );
-        const dwarka = cityList.find(
-          (city) => city.name.toLowerCase() === "dwarka"
-        );
+        const dwarka = cityList.find((c) => c.name.toLowerCase() === "dwarka");
 
         setFormData((prev) => ({
           ...prev,
           fromCity: newDelhi ? newDelhi.id.toString() : "",
-          toCity: dwarka ? dwarka.id.toString() : "",
-          journeyDate: prev.journeyDate
+          toCity: dwarka ? dwarka.id.toString() : ""
         }));
       } catch (error) {
         console.error("Error fetching cities:", error);
@@ -75,7 +79,6 @@ const SearchLayout = () => {
         sticky: false,
         closable: true
       });
-
       return;
     }
 
@@ -98,8 +101,7 @@ const SearchLayout = () => {
     )}`;
 
     try {
-      window.loadingStart(); // START loader here
-
+      window.loadingStart();
       const response = await api.get(`/buses?${query}`);
       const buses = response.data;
 
@@ -118,7 +120,6 @@ const SearchLayout = () => {
 
       dispatch(setSearchResults(buses, fromCityName, toCityName));
       navigate("/buses");
-
       window.loadingEnd();
     } catch (error) {
       console.error("Search error:", error);
@@ -134,40 +135,38 @@ const SearchLayout = () => {
     }));
   };
 
-  const location = useLocation();
-  const isHomePage =
-    location.pathname === "/home" || location.pathname === "/search";
+  useLayoutEffect(() => {
+    const checkAndRedirect = () => {
+      const isDesktop = window.innerWidth >= 768;
 
-  const wrapperStyle = isHomePage
-    ? {
-        height: "80vh",
-        backgroundImage: `url(https://imgak.mmtcdn.com/pwa_v3/pwa_commons_assets/desktop/bg1.jpg)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat"
+      if (location.pathname === "/search" && isDesktop) {
+        window.location.replace("/");
       }
-    : {};
 
-  const overlayStyle = isHomePage
-    ? {
-        backgroundColor: "rgba(255, 255, 255, 0.2)",
-        backdropFilter: "blur(3px)",
-        WebkitBackdropFilter: "blur(3px)",
-        zIndex: 1
+      // Skip overlay when on desktop and path is "/"
+      if (isDesktop && location.pathname === "/") {
+        setShowOverlay(false);
+      } else {
+        setShowOverlay(true);
       }
-    : {};
+    };
+
+    checkAndRedirect();
+    window.addEventListener("resize", checkAndRedirect);
+    return () => window.removeEventListener("resize", checkAndRedirect);
+  }, [location.pathname]);
 
   return (
-    <div
-      className="d-flex justify-content-center align-items-center position-relative"
-      style={wrapperStyle}
-    >
-      <div
-        className="position-absolute top-0 start-0 w-100 h-100"
-        style={overlayStyle}
-      ></div>
+    <div className="d-flex justify-content-center align-items-center position-relative">
+      {showOverlay && (
+        <div
+          className="position-absolute top-0 start-0 w-100 h-100"
+          style={overlayStyle}
+        ></div>
+      )}
 
-      <div className="position-relative z-2 w-90 d-flex justify-content-center">
+      {/* Desktop Form */}
+      <div className="d-none d-md-flex position-relative z-2 w-90 d-flex justify-content-center">
         <form
           className="d-flex flex-column flex-md-row align-items-start bg-white rounded shadow-sm p-3 gap-3"
           onSubmit={(e) => {
@@ -177,39 +176,20 @@ const SearchLayout = () => {
         >
           {/* FROM */}
           <div className="flex-grow-1 d-flex flex-column">
-            <h4 className="fw-semibold text-secondary mb-2">FROM</h4>
-            <div className="input-group justify-content-between gap-3">
-              <span
-                className="input-group-text border-0 d-flex align-items-center gap-1"
-                style={{ backgroundColor: "transparent", cursor: "pointer" }}
-              >
-                <FaBus size={18} />
-                <FaWalking size={14} />
-              </span>
-              {/* FROM */}
+            <h4 className="fw-semibold text-secondary fs-5">FROM</h4>
+            <div className="input-group gap-3">
               <select
                 className="form-select border-0 fw-bold fs-5 ms-4"
-                style={{
-                  WebkitAppearance: "none",
-                  MozAppearance: "none",
-                  appearance: "none",
-                  backgroundImage: "none",
-                  paddingRight: "1rem"
-                }}
+                name="fromCity"
                 value={formData.fromCity}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, fromCity: e.target.value }))
-                }
-                aria-label="From city"
+                onChange={handleChange}
               >
                 <option value="">Select City</option>
                 {cities.map((city) => (
                   <option
                     key={city.id}
-                    value={city.id.toString()}
-                    disabled={
-                      formData.toCity && city.id.toString() === formData.toCity
-                    }
+                    value={city.id}
+                    disabled={formData.toCity === city.id.toString()}
                   >
                     {city.name}
                   </option>
@@ -218,50 +198,31 @@ const SearchLayout = () => {
             </div>
           </div>
 
+          {/* Swap Button */}
           <div
             className="d-none d-md-flex align-items-center mt-4 pt-3 me-4 text-primary"
-            style={{ userSelect: "none", cursor: "pointer" }}
             onClick={handleSwap}
+            style={{ cursor: "pointer" }}
           >
             <MdSwapHoriz size={32} />
           </div>
 
           {/* TO */}
           <div className="flex-grow-1 d-flex flex-column">
-            <h4 className="fw-semibold text-secondary mb-2">TO</h4>
+            <h4 className="fw-semibold text-secondary fs-5 ">TO</h4>
             <div className="input-group gap-5">
-              <span
-                className="input-group-text border-0 d-flex align-items-center gap-1"
-                style={{ backgroundColor: "transparent", cursor: "pointer" }}
-              >
-                <FaBus size={18} />
-                <FaWalking size={14} />
-              </span>
-
-              {/* TO */}
               <select
-                name="toCity"
                 className="form-select border-0 fw-bold fs-5"
-                style={{
-                  WebkitAppearance: "none",
-                  MozAppearance: "none",
-                  appearance: "none",
-                  backgroundImage: "none",
-                  paddingRight: "1rem"
-                }}
+                name="toCity"
                 value={formData.toCity}
                 onChange={handleChange}
-                aria-label="To city"
               >
                 <option value="">Select City</option>
                 {cities.map((city) => (
                   <option
                     key={city.id}
-                    value={city.id.toString()}
-                    disabled={
-                      formData.fromCity &&
-                      city.id.toString() === formData.fromCity
-                    }
+                    value={city.id}
+                    disabled={formData.fromCity === city.id.toString()}
                   >
                     {city.name}
                   </option>
@@ -270,38 +231,21 @@ const SearchLayout = () => {
             </div>
           </div>
 
+          {/* DATE */}
           <div className="flex-grow-1 d-flex flex-column">
-            <h4 className="fw-semibold text-secondary mb-2">Journey Date</h4>
-            <div className="input-group mb-2">
-              <div
-                className="input-group"
-                onClick={() =>
-                  inputRef.current && inputRef.current.showPicker
-                    ? inputRef.current.showPicker()
-                    : inputRef.current.focus()
-                }
-              >
-                <span
-                  className="input-group-text border-0 d-flex align-items-center"
-                  style={{ backgroundColor: "transparent", cursor: "pointer" }}
-                >
-                  <FaCalendarAlt size={18} />
-                </span>
-
-                <input
-                  ref={inputRef}
-                  name="journeyDate"
-                  type="date"
-                  className="form-control border-0 fw-bold fs-5"
-                  value={formData.journeyDate}
-                  onChange={handleChange}
-                  aria-label="Journey date"
-                />
-              </div>
-            </div>
+            <h4 className="fw-semibold text-secondary fs-5">Journey Date</h4>
+            <input
+              ref={inputRef}
+              type="date"
+              name="journeyDate"
+              className="border-0 fw-bold fs-5"
+              style={{ outline: "none", boxShadow: "none" }}
+              value={formData.journeyDate}
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="align-items-end ms-md-3 mt-3 pt-1 justify-content-center justify-content-md-start">
+          <div className="align-items-end ms-md-3 mt-3 pt-1">
             <button
               type="submit"
               className="btn btn-warning fw-bold px-4 py-2 text-white"
@@ -311,6 +255,70 @@ const SearchLayout = () => {
           </div>
         </form>
       </div>
+
+      {/* Mobile Form */}
+      <form
+        className="d-flex d-md-none flex-column gap-3 p-3 w-100"
+        style={{ maxWidth: "420px", zIndex: 2 }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSearch();
+        }}
+      >
+        <h6 className="fw-bold fs-4 text-light text-center">
+          Find the Best Travel Deals Instantly
+        </h6>
+
+        <div className="form-group">
+          <label className="text-white">From</label>
+          <select
+            name="fromCity"
+            className="form-select"
+            value={formData.fromCity}
+            onChange={handleChange}
+          >
+            <option value="">Select city</option>
+            {cities.map((city) => (
+              <option key={city.id} value={city.id}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label className="text-white">To</label>
+          <select
+            name="toCity"
+            className="form-select"
+            value={formData.toCity}
+            onChange={handleChange}
+          >
+            <option value="">Select city</option>
+            {cities.map((city) => (
+              <option key={city.id} value={city.id}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label className="text-white">Date</label>
+          <input
+            type="date"
+            name="journeyDate"
+            className="form-control"
+            value={formData.journeyDate}
+            onChange={handleChange}
+            min={getTodayDate()}
+          />
+        </div>
+
+        <button type="submit" className="btn btn-warning fw-bold text-white">
+          Search
+        </button>
+      </form>
     </div>
   );
 };

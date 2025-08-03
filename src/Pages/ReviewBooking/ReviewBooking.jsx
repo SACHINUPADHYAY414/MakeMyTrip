@@ -359,6 +359,7 @@ const BusBookingReview = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+
   const handleSubmit = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
 
@@ -392,11 +393,25 @@ const BusBookingReview = () => {
         detail: "Your ticket will be sent to this email address.",
         life: 3000
       });
+
       setShowTicketModal(true);
+          const ticketData = {
+      email: payload.email,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      busName: busDetails?.bus_name || "",
+      journeyDate: payload.journey_date,
+      seatNumber: payload.seat_number,
+    };
+
+    // Only send email if email exists
+    if (ticketData.email) {
+      await sendTicketEmail(ticketData);
+    }
 
       setTimeout(() => {
         navigate("/");
-      }, 5000); 
+      }, 5000);
     } catch (error) {
       setShowTicketModal(false);
       customToast({
@@ -407,6 +422,16 @@ const BusBookingReview = () => {
       });
     }
   };
+
+const sendTicketEmail = async (ticketData) => {
+  try {
+    const response = await api.post("/send-ticket", ticketData);
+    alert(response.data.message);
+  } catch (error) {
+    console.error("Email send error:", error);
+    alert("Failed to send email.");
+  }
+};
 
   bookedDetails;
   if (!busId || !seatId) {
