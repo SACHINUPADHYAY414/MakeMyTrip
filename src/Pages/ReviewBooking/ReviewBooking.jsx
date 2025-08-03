@@ -396,14 +396,13 @@ const BusBookingReview = () => {
       setShowTicketModal(true);
       navigate("/");
     } catch (error) {
+      setShowTicketModal(false);
       customToast({
         severity: "error",
         summary: OPPS_MSG,
         detail: error.message || SERVER_ERROR,
         life: 3000
       });
-
-      setShowTicketModal(false);
     }
   };
 
