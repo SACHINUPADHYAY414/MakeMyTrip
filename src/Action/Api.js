@@ -1,4 +1,3 @@
-// api.js
 import axios from "axios";
 
 const api = axios.create({
@@ -16,7 +15,8 @@ export const setToken = (token) => {
 
 api.interceptors.request.use(
   (config) => {
-    if (storeToken) {
+    // If skipAuth is true, do not attach token
+    if (!config.skipAuth && storeToken) {
       config.headers.Authorization = `Bearer ${storeToken}`;
     }
     return config;

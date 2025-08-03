@@ -180,7 +180,6 @@ const Login = () => {
             user: response.data.user
           }
         });
-        // Redirect back to where user came from
         navigate(from, { replace: true });
 
         customToast({
@@ -238,13 +237,26 @@ const Login = () => {
         </h3>
         <form onSubmit={handleSubmit}>
           {fields.map((field) => returnControls(field))}
-          <div className="d-grid mt-3">
+
+          {/* Forgot Password Link */}
+          <div className="text-end">
+            <a
+              href="/forgot-password"
+              className="text-decoration-none fw-semibold"
+              style={{ fontSize: "0.6rem" }}
+            >
+              Forgot Password?
+            </a>
+          </div>
+
+          <div className="d-grid mt-1">
             <button type="submit" className="btn btn-primary fw-semibold">
               Login
             </button>
           </div>
         </form>
-        <p className="text-center mt-3 mb-0" style={{ fontSize: "0.9rem" }}>
+
+        <p className="text-center mt-2 mb-0" style={{ fontSize: "0.9rem" }}>
           Don't have an account?{" "}
           <a
             href="/register"

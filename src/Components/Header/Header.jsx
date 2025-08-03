@@ -47,6 +47,9 @@ const NavbarEMT = () => {
     bsOffcanvas?.hide();
   };
 
+  const handleProfileSetting = () => {
+    navigate("/profile-setting");
+  };
   const handleLogout = () => {
     dispatch({ type: CLEAR_LOGIN_DATA });
     persistor.purge();
@@ -147,6 +150,14 @@ const NavbarEMT = () => {
                       className="dropdown-menu dropdown-menu-end"
                       aria-labelledby="userDropdown"
                     >
+                      <li>
+                        <button
+                          className="dropdown-item d-flex align-items-center fw-bold gap-2"
+                          onClick={handleProfileSetting}
+                        >
+                          Profile Setting
+                        </button>
+                      </li>
                       <li>
                         <button
                           className="dropdown-item d-flex align-items-center fw-bold gap-2"

@@ -16,6 +16,8 @@ import { CLEAR_LOGIN_DATA } from "./Redux/authSlice";
 import { persistor } from "./Redux/store";
 import { useToastr } from "./Components/Toastr/ToastrProvider";
 import { OPPS_MSG, SESSION_EXPIRE } from "./Utils/strings";
+import ProfileSettings from "./Pages/ProfileSetting/ProfileSeting";
+import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 
 const App = () => {
   const { customToast } = useToastr();
@@ -73,8 +75,8 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="search" element={<SearchLayout />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<PageNotFound />} />
-
         {/* Protected routes */}
         <Route
           path="booking"
@@ -89,6 +91,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <ReviewBooking />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="profile-setting"
+          element={
+            <ProtectedRoute>
+              <ProfileSettings />
             </ProtectedRoute>
           }
         />

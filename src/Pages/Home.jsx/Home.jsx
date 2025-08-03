@@ -1,4 +1,4 @@
-import Dashboard from "../../Components/Dashboard/Dashboard";
+import Dashboard from "../../Components/MobileDashboard/Dashboard";
 import SearchLayout from "../../Components/SearchLayout/SearchLayout";
 import ExclusiveOffers from "../ExclusiveOffers/ExclusiveOffers";
 
