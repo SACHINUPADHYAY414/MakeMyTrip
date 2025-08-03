@@ -234,7 +234,7 @@ const Footer = () => {
         {/* Mobile copyright */}
         <div className="text-center text-white d-block d-md-none py-2">
           {footerData.copyright}
-          <div className="small text-white-50 ms-3 d-flex">
+          <div className="small text-center text-white-50 ms-3 d-flex">
             Created by{" "}
             <NavLink
               to="https://portfoliosachinkumar.vercel.app/"
