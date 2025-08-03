@@ -380,12 +380,12 @@ const BusBookingReview = () => {
       totalPrice: Number(totalPrice.toFixed(0))
     };
     setBookedDetails(payload);
-    setShowTicketModal(true);
     try {
       const response = await api.post("/busBooking", payload);
       if (!response || response.error) {
         throw new Error(response?.error || "Failed to submit booking");
       }
+
       customToast({
         severity: "success",
         summary: SUCCESS_MSG,

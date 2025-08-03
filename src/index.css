@@ -313,12 +313,12 @@ body::before {
 }
 
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle {
-  fill: #0cb8b6;
-  color: #0cb8b6;
+  fill: #0dcaf0;
+  color: #0dcaf0;
 }
 
 .react-datepicker-popper .react-datepicker__triangle {
-  stroke: #0cb8b6;
+  stroke: #0dcaf0;
 }
 
 .react-datepicker__current-month,
@@ -328,12 +328,12 @@ body::before {
 
 .react-datepicker__day--selected {
   border-radius: 0.3rem;
-  background-color: #0cb8b6;
+  background-color: #0dcaf0;
   color: #fff;
 }
 
 .react-datepicker__day--today {
-  color: #0cb8b6 !important;
+  color: #0dcaf0 !important;
   font-weight: 700;
 }
 
@@ -342,7 +342,7 @@ body::before {
 }
 
 .react-datepicker__header {
-  background-color: #0cb8b6;
+  background-color: #0dcaf0;
   border-bottom: none !important;
 }
 
@@ -355,7 +355,7 @@ body::before {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  padding: 0.8rem;
+  padding: 1rem;
   box-sizing: content-box;
   pointer-events: none;
 }
@@ -370,9 +370,10 @@ body::before {
 .react-datepicker__month-select,
 .react-datepicker__year-select {
   background-color: white !important;
-  color: #0cb8b6 !important;
+  color: #0dcaf0 !important;
   border: 1px white;
   border-radius: 0.3rem;
+  padding: 2.5px !important;
   font-weight: bold;
 }
 
@@ -427,7 +428,7 @@ body::before {
 .selected-card {
   color: rgb(12, 184, 182) !important;
   border-color: rgb(12, 184, 182) !important;
-  background-color: #0cb8b62b !important;
+  background-color: #0dcaf02b !important;
 }
 
 .top-bar {
