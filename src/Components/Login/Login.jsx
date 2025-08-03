@@ -240,13 +240,17 @@ const Login = () => {
 
           {/* Forgot Password Link */}
           <div className="text-end">
-            <a
-              href="/forgot-password"
+            <span
+              onClick={() => navigate("/forgot-password")}
               className="text-decoration-none fw-semibold"
-              style={{ fontSize: "0.6rem" }}
+              style={{
+                fontSize: "0.6rem",
+                cursor: "pointer",
+                color: "#0d6efd"
+              }}
             >
               Forgot Password?
-            </a>
+            </span>
           </div>
 
           <div className="d-grid mt-1">
@@ -258,12 +262,13 @@ const Login = () => {
 
         <p className="text-center mt-2 mb-0" style={{ fontSize: "0.9rem" }}>
           Don't have an account?{" "}
-          <a
-            href="/register"
+          <span
+            onClick={() => navigate("/register")}
             className="text-primary fw-semibold text-decoration-none"
+            style={{ cursor: "pointer" }}
           >
             Register
-          </a>
+          </span>
         </p>
       </div>
     </div>
