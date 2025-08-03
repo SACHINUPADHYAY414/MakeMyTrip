@@ -232,13 +232,13 @@ const Footer = () => {
         </div>
 
         {/* Mobile copyright */}
-        <div className="text-center text-white d-block d-md-none py-2">
-          {footerData.copyright}
-          <div className="small text-center text-white-50 ms-3 d-flex">
-            Created by{" "}
+        <div className="text-center text-white-50 small d-block d-md-none py-1">
+          {footerData?.copyright}
+          <div className="d-flex justify-content-center align-items-center mt-1">
+            <span>Created by&nbsp;</span>
             <NavLink
               to="https://portfoliosachinkumar.vercel.app/"
-              className="ms-1 text-white-50 text-decoration-none nav-link"
+              className="text-decoration-none nav-link p-0"
             >
               Sachin Upadhyay
             </NavLink>
@@ -246,13 +246,13 @@ const Footer = () => {
         </div>
 
         {/* Desktop copyright */}
-        <div className="d-none d-md-flex justify-content-center align-items-center text-white py-2">
+        <div className="d-none small text-white-50 d-md-flex justify-content-center align-items-center py-1">
           <div>{footerData.copyright}</div>
-          <div className="small text-white-50 ms-3 d-flex">
+          <div className="text-center ms-3 d-flex">
             Created by{" "}
             <NavLink
               to="https://portfoliosachinkumar.vercel.app/"
-              className="ms-1 text-white-50 text-decoration-none nav-link"
+              className="ms-1 text-decoration-none nav-link"
             >
               Sachin Upadhyay
             </NavLink>
