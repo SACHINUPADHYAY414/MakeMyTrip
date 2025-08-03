@@ -102,7 +102,6 @@ const SearchLayout = () => {
 
       const response = await api.get(`/buses?${query}`);
       const buses = response.data;
-      console.log("buses data", buses);
 
       if (!buses || buses.length === 0) {
         customToast({

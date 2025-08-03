@@ -21,6 +21,7 @@ const CustomInputField = ({
   disabled,
   isInvalid,
   dateRange,
+  hideLabel
 }) => {
   const inputRef = useRef(null);
   const [passwordVisibility, setPasswordVisibility] = useState({});
@@ -30,7 +31,7 @@ const CustomInputField = ({
   const handlePasswordVisibilityToggle = (fieldId) => {
     setPasswordVisibility((prevState) => ({
       ...prevState,
-      [fieldId]: !prevState[fieldId],
+      [fieldId]: !prevState[fieldId]
     }));
   };
 
@@ -41,20 +42,23 @@ const CustomInputField = ({
     right: "1.4rem",
     top: "53%",
     transform: "translateX(-50%)",
-    cursor: "pointer",
+    cursor: "pointer"
   };
 
   return (
     <div className={colClass} key={field.id} style={{ position: "relative" }}>
-      <label
-        htmlFor={field.id}
-        className={`${field?.required
-            ? "form-label fw-medium required-label"
-            : "form-label fw-medium"
+      {!hideLabel && (
+        <label
+          htmlFor={field?.id}
+          className={`${
+            field?.required
+              ? "form-label fw-medium required-label"
+              : "form-label fw-medium"
           }`}
-      >
-        {field.label}
-      </label>
+        >
+          {field?.label || ""}
+        </label>
+      )}
 
       {field.type === "date" ? (
         <DatePicker
@@ -66,7 +70,7 @@ const CustomInputField = ({
           placeholderText="DD/MM/YYYY"
           minDate={field?.minDate || new Date(1930, 0, 1)}
           {...(!dateRange && {
-            maxDate: new Date(),
+            maxDate: new Date()
           })}
           maxLength={field?.maxLength}
           minLength={field?.minLength}
@@ -82,14 +86,15 @@ const CustomInputField = ({
           showMonthDropdown
           showYearDropdown
           dropdownMode="select"
-          className={`form-control ${isInvalid
+          className={`form-control ${
+            isInvalid
               ? ""
               : hasError
-                ? "hasError"
-                : value !== undefined && value !== ""
-                  ? "is-valid is-valid-date"
-                  : ""
-            }`}
+              ? "hasError"
+              : value !== undefined && value !== ""
+              ? "is-valid is-valid-date"
+              : ""
+          }`}
           disabled={disabled}
           readOnly={readOnly}
           onFocus={onFocus}
@@ -100,7 +105,7 @@ const CustomInputField = ({
               "Tab",
               "ArrowLeft",
               "ArrowRight",
-              "Delete",
+              "Delete"
             ];
             if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
               e.preventDefault();
@@ -135,15 +140,17 @@ const CustomInputField = ({
           }
           id={field?.id}
           name={field?.name}
-          className={`form-control ${field.type === "password" ? "customPasswordClass" : ""
-            } ${isInvalid
+          className={`form-control ${
+            field.type === "password" ? "customPasswordClass" : ""
+          } ${
+            isInvalid
               ? ""
               : hasError
-                ? "hasError"
-                : value !== undefined && value !== ""
-                  ? "is-valid"
-                  : ""
-            }`}
+              ? "hasError"
+              : value !== undefined && value !== ""
+              ? "is-valid"
+              : ""
+          }`}
           value={value}
           placeholder={field?.placeholder}
           maxLength={field?.maxLength}
@@ -180,7 +187,7 @@ const CustomInputField = ({
               right: field?.type == "date" ? "40px" : "1rem",
               top: "50%",
               transform: "translateY(10%)",
-              cursor: "pointer",
+              cursor: "pointer"
             }}
           >
             <RiInformation2Line color="#ff3d42" />

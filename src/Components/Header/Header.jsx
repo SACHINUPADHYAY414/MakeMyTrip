@@ -135,14 +135,14 @@ const NavbarEMT = () => {
                 </span>
                 {isLoggedIn ? (
                   <div className="dropdown">
-                    <RiAccountCircleLine
-                      size={34}
-                      type="button"
+                    <button
+                      className="btn btn-link p-0"
                       id="userDropdown"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
-                      className="text-primary"
-                    />
+                    >
+                      <RiAccountCircleLine size={34} className="text-primary" />
+                    </button>
                     <ul
                       className="dropdown-menu dropdown-menu-end"
                       aria-labelledby="userDropdown"

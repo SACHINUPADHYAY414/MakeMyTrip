@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { formatDateMain } from "../../Utils/timeFormater";
+import { formatDateMain, formatTimeToAMPM } from "../../Utils/timeFormater";
 import api from "../../Action/Api";
 import { useToastr } from "../../Components/Toastr/ToastrProvider";
 import { setSearchResults } from "../../Redux/Action/searchReducer";
 import DayCard from "../../Components/DateCard/DateCard";
+import { useNavigate } from "react-router-dom";
+import { setBookingDetails } from "../../Redux/bookingReducer";
 
 const days = Array.from({ length: 31 }).map((_, i) => {
   const date = new Date();
@@ -47,20 +49,9 @@ const promoData = [
 
 const Buses = () => {
   const buses = useSelector((state) => state.search?.results || []);
-  console.log("buses", buses);
   const { customToast } = useToastr();
   const firstBus = buses.length > 0 ? buses[0] : null;
   const [selectedSeat, setSelectedSeat] = useState(null);
-
-  function formatTimeToAMPM(time24) {
-    const cleanTime = time24.replace(/\s?(AM|PM)$/i, "");
-    const [hourStr, minute] = cleanTime.split(":");
-    let hour = parseInt(hourStr, 10);
-    const ampm = hour >= 12 ? "PM" : "AM";
-    hour = hour % 12 || 12;
-    return `${hour.toString().padStart(2, "0")}:${minute} ${ampm}`;
-  }
-
   const scrollRef = useRef();
   const [isAtStart, setIsAtStart] = useState(true);
 
@@ -305,7 +296,11 @@ const Buses = () => {
     return null;
   };
 
-  const handleBooking = () => {};
+  const navigate = useNavigate();
+  const handleBooking = (busId, seatId, bus) => {
+    dispatch(setBookingDetails(busId, seatId, bus));
+    navigate("/review-booking");
+  };
 
   return (
     <div className="container mt-4">
@@ -834,7 +829,9 @@ const Buses = () => {
                             <div className="text-end mt-3">
                               <button
                                 className="btn btn-primary"
-                                onClick={handleBooking}
+                                onClick={() =>
+                                  handleBooking(bus.id, selectedSeat, bus)
+                                }
                               >
                                 Book Now
                               </button>

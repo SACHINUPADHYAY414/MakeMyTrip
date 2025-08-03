@@ -1,21 +1,27 @@
-// import axios from "axios";
-// const api = axios.create({
-//   // baseURL: import.meta.env.VITE_REACT_APP_LOCAL|| "https://localhost:8080/api",
-//   baseURL: import.meta.env.VITE_REACT_APP_LOCAL,
-//   headers: {
-//     "Content-Type": "application/json"
-//   }
-// });
-
-// export default api;
-
+// api.js
 import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_LOCAL_API,
   headers: {
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  },
 });
+
+let storeToken = null;
+
+export const setToken = (token) => {
+  storeToken = token;
+};
+
+api.interceptors.request.use(
+  (config) => {
+    if (storeToken) {
+      config.headers.Authorization = `Bearer ${storeToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default api;

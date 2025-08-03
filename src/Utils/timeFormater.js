@@ -94,3 +94,20 @@ export function parseTime12to24(time12h) {
   }
   return { hours, minutes };
 }
+export const formatTimeToAMPM = (time24) => {
+  const cleanTime = time24.replace(/\s?(AM|PM)$/i, "");
+  const [hourStr, minute] = cleanTime.split(":");
+  let hour = parseInt(hourStr, 10);
+  const ampm = hour >= 12 ? "PM" : "AM";
+  hour = hour % 12 || 12;
+  return `${hour.toString().padStart(2, "0")}:${minute} ${ampm}`;
+};
+
+
+export const timeTaken = (timeStr) => {
+  if (!timeStr) return "--:--";
+  const [hour, minute] = timeStr.split(":").map(Number);
+  const ampm = hour >= 12 ? "PM" : "AM";
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  return `${hour12}:${minute.toString().padStart(2, "0")} ${ampm}`;
+};

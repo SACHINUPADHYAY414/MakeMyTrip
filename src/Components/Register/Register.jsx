@@ -518,9 +518,6 @@ const Register = () => {
     formFields.forEach((field) => {
       const { name, label, required } = field;
       const value = formData[name];
-
-      console.log(`Field: ${name}, Required: ${required}, Value:`, value);
-
       if (
         required &&
         (value === undefined ||
@@ -530,8 +527,6 @@ const Register = () => {
         tempErrors[name] = ERROR_REQUIRED(label);
       }
     });
-    console.log("tempErrors:", tempErrors);
-
     setErrors(tempErrors);
 
     if (Object.keys(tempErrors).length > 0) {

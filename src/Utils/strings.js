@@ -30,8 +30,9 @@ export const DOB_RANGE_MESSAGE =
   "Date of birth should be between January 1, 1930, and today's date. Please enter a valid date.";
 export const OPPS_ERROR =
   "There was an issue while processing your request. Please try again later.";
-  export const SERVER_ERROR = "Failed to reach server. Please try again later.";
-export const TRUE="TRUE";
-export const FALSE="FALSE";
+export const SERVER_ERROR = "Failed to reach server. Please try again later.";
+export const TRUE = "TRUE";
+export const FALSE = "FALSE";
 
+export const SESSION_EXPIRE = "Your session has been expire";
 export const ERROR_PASTE_DATA = "Pasted data is invalid.";
