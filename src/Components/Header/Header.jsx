@@ -345,6 +345,26 @@ const NavbarEMT = () => {
         </div>
         <div className="offcanvas-body position-relative">
           <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+            {user ? (
+              <li className="nav-item">
+                <NavLink
+                  to="/profile-setting"
+                  onClick={closeOffcanvas}
+                  className={({ isActive }) =>
+                    `nav-NavLink ${
+                      isActive ? "text-primary fw-semibold" : "text-secondary"
+                    }`
+                  }
+                >
+                  <img
+                    src="/profilesetting.png"
+                    alt="Profile settings icon"
+                    className="nav-icon"
+                  />
+                  Profile Settings
+                </NavLink>
+              </li>
+            ) : null}
             <li className="nav-item">
               <NavLink
                 to="/flights"

@@ -25,7 +25,7 @@ body::before {
   z-index: -1;
   pointer-events: none;
 }
-.search-bg{
+.search-bg {
   background-color: #05203c;
 }
 
@@ -594,4 +594,15 @@ card-title {
 }
 .modal-body {
   overflow-x: auto;
+}
+.nav-icon {
+  width: 15px;
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle;
+  transition: filter 0.3s ease;
+}
+
+.nav-NavLink.text-primary .nav-icon {
+  filter: brightness(1.2);
 }
