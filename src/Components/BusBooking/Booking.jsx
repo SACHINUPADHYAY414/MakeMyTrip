@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Collapse, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CabListingPage = () => {
+const BusBooking = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilters = () => setShowFilters(!showFilters);
@@ -112,4 +112,4 @@ const CabListingPage = () => {
   );
 };
 
-export default CabListingPage;
+export default BusBooking;

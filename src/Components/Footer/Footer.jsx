@@ -99,15 +99,15 @@ const footerData = {
       ]
     }
   ],
-  logo: "/images/makemytrip-logo.png",
+  logo: "/images/YatraVille-logo.png",
   description:
-    "MakeMyTrip offers 'End to End' travel solutions including air tickets for more than 400 international and domestic airlines, hotel bookings for nearly 1 million hotels in India and abroad, cab booking with 4000+ cab operators, bus tickets with 2000+ bus operators, and railway tickets in India for all major cities.",
+    "YatraVille offers 'End to End' travel solutions including air tickets for more than 400 international and domestic airlines, hotel bookings for nearly 1 million hotels in India and abroad, cab booking with 4000+ cab operators, bus tickets with 2000+ bus operators, and railway tickets in India for all major cities.",
   appBadges: [
     { href: "#", imgSrc: "/assets/PlayStore.png", alt: "Google Play" },
     { href: "#", imgSrc: "/assets/AppStore.png", alt: "App Store" }
   ],
   qrCode: "/assets/Qr.png",
-  copyright: "© 2025 MakeMyTrip.com. All rights reserved."
+  copyright: "© 2025 YatraVille.com. All rights reserved."
 };
 
 const Footer = () => {
@@ -185,7 +185,7 @@ const Footer = () => {
               <div className="d-flex flex-column align-items-start">
                 <div className="d-flex align-items-center">
                   <h5 className="mb-0 me-2">
-                    <span className="fw-bold">MakeMyTrip</span>
+                    <span className="fw-bold">YatraVille</span>
                     <span style={{ fontSize: "0.7rem", fontWeight: "bold" }}>
                       .com
                     </span>
@@ -200,7 +200,7 @@ const Footer = () => {
             <div className="col-md-6 d-flex flex-column flex-md-row align-items-center justify-content-md-end gap-4 mt-3 mt-md-0">
               <div>
                 <p className="small fw-semibold mb-1">
-                  Download MakeMyTrip App
+                  Download YatraVille App
                 </p>
                 <div className="d-flex gap-2">
                   {footerData.appBadges.map((badge, idx) => (

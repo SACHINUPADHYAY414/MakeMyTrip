@@ -1,5 +1,5 @@
 import Dashboard from "../../Components/MobileDashboard/Dashboard";
-import SearchLayout from "../../Components/SearchLayout/SearchLayout";
+import BusBusSearch from "../../Components/BusSearch/BusSearch";
 import ExclusiveOffers from "../ExclusiveOffers/ExclusiveOffers";
 
 const Home = () => {
@@ -27,7 +27,7 @@ const Home = () => {
         ></div>
 
         <div>
-          <SearchLayout />
+          <BusBusSearch />
         </div>
       </div>
 

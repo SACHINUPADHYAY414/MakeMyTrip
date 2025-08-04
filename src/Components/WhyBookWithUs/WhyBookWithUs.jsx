@@ -38,7 +38,7 @@ const WhyBookWithUs = () => {
         <div className="col-6 col-md-3 mb-2">
           <img
             src="https://images.emtcontent.com/bus-img/new/Seamless.svg"
-            alt="Seamless Booking"
+            alt="Seamless "
             className="mb-2"
           />
           <h5 className="fw-bold">Seamless Booking</h5>

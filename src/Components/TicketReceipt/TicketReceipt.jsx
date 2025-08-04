@@ -4,7 +4,7 @@ import html2pdf from "html2pdf.js";
 import { useSelector } from "react-redux";
 import { formatDateMain } from "../../Utils/timeFormater";
 
-const TicketReceipt = ({ show, setShow, bookedDetails }) => {
+const TicketReceipt = ({ show, setShow, bookedDetails, seatNumber }) => {
   const receiptRef = useRef(null);
   const handleClose = () => setShow(false);
   const { busDetails } = useSelector((state) => state.booking);
@@ -106,7 +106,7 @@ const TicketReceipt = ({ show, setShow, bookedDetails }) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton className="mx-2">
-      <Modal.Title className="fw-bold">Bus Ticket Receipt</Modal.Title>
+        <Modal.Title className="fw-bold">Bus Ticket Receipt</Modal.Title>
       </Modal.Header>
       <Modal.Body className="justify-content-center align-items-center mx-4">
         <div className="ticket-receipt mx-auto px-4" ref={receiptRef}>
@@ -169,7 +169,7 @@ const TicketReceipt = ({ show, setShow, bookedDetails }) => {
             </div>
             <div className="col-12 col-md-6">
               <strong>Seat Number:</strong>
-              <div>{bookedDetails.seatId || "N/A"}</div>
+              <div>{seatNumber || "N/A"}</div>
             </div>
           </div>
 

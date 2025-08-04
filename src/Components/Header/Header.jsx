@@ -101,11 +101,23 @@ const NavbarEMT = () => {
           <div className="top-bar d-flex justify-content-between align-items-center py-1">
             <div className="d-flex align-items-center">
               <NavLink to="/" className="text-decoration-none">
-                <h5 className="mb-0 me-2">
-                  <span style={{ color: "#007bff", fontWeight: "bold" }}>
-                    MakeMyTrip
+                <h5
+                  className="mb-0"
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontWeight: 600
+                  }}
+                >
+                  <span style={{ color: "#007bff", fontSize: "1.5rem" }}>
+                    YatraVille
                   </span>
-                  <span style={{ fontSize: "0.7rem", fontWeight: "bold" }}>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      color: "#007bff",
+                      marginLeft: "1px"
+                    }}
+                  >
                     .com
                   </span>
                 </h5>

@@ -51,13 +51,15 @@ import { FaIdCard } from "react-icons/fa";
 import TicketReceipt from "../../Components/TicketReceipt/TicketReceipt";
 import { useNavigate } from "react-router-dom";
 
-const BusBookingReview = () => {
+const BusBooking = () => {
   const { customToast } = useToastr();
   const { busId, seatId, busDetails } = useSelector((state) => state.booking);
   const navigate = useNavigate();
   const baseFare = 40;
   const gst = 50;
   const busPrice = busDetails?.price ?? 0;
+  const seat = busDetails.seats.find((seat) => seat.id === seatId);
+  const seatNumber = seat ? seat.seat_number : null;
   const totalPrice = parseFloat(busPrice) + baseFare + gst;
 
   const [formData, setFormData] = useState({
@@ -359,7 +361,6 @@ const BusBookingReview = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-
   const handleSubmit = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
 
@@ -386,7 +387,6 @@ const BusBookingReview = () => {
       if (!response || response.error) {
         throw new Error(response?.error || "Failed to submit booking");
       }
-
       customToast({
         severity: "success",
         summary: SUCCESS_MSG,
@@ -395,43 +395,52 @@ const BusBookingReview = () => {
       });
 
       setShowTicketModal(true);
-          const ticketData = {
-      email: payload.email,
-      firstName: payload.firstName,
-      lastName: payload.lastName,
-      busName: busDetails?.bus_name || "",
-      journeyDate: payload.journey_date,
-      seatNumber: payload.seat_number,
-    };
+      const ticketData = {
+        email: payload.email,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        busName: busDetails?.bus_name || "",
+        journeyDate: payload.journey_date,
+        seatNumber: payload.seat_number
+      };
 
-    // Only send email if email exists
-    if (ticketData.email) {
-      await sendTicketEmail(ticketData);
-    }
+      // Only send email if email exists
+      if (ticketData.email) {
+        await sendTicketEmail(ticketData);
+      }
 
       setTimeout(() => {
         navigate("/");
-      }, 5000);
+      }, 4000);
     } catch (error) {
       setShowTicketModal(false);
+      const message =
+        error.response?.data?.message || error.message || SERVER_ERROR;
       customToast({
         severity: "error",
         summary: OPPS_MSG,
-        detail: error.message || SERVER_ERROR,
+        detail: message,
         life: 3000
       });
     }
   };
 
-const sendTicketEmail = async (ticketData) => {
-  try {
-    const response = await api.post("/send-ticket", ticketData);
-    alert(response.data.message);
-  } catch (error) {
-    console.error("Email send error:", error);
-    alert("Failed to send email.");
-  }
-};
+  const sendTicketEmail = async (ticketData) => {
+    try {
+      const response = await api.post("/send-ticket", ticketData);
+      // alert(response.data.message);
+    } catch (error) {
+      const message =
+        error.response?.data?.message || error.message || SERVER_ERROR;
+
+      customToast({
+        severity: "error",
+        summary: OPPS_MSG,
+        detail: message,
+        life: 3000
+      });
+    }
+  };
 
   bookedDetails;
   if (!busId || !seatId) {
@@ -528,9 +537,9 @@ const sendTicketEmail = async (ticketData) => {
                 <Col xs={12} md={2}>
                   <div className="d-flex d-md-none justify-content-between">
                     <strong>Seat no(s)</strong>
-                    <span>{seatId || "N/A"}</span>
+                    <span>{seatNumber || "N/A"}</span>
                   </div>
-                  <div className="d-none d-md-block">{seatId || "N/A"}</div>
+                  <div className="d-none d-md-block">{seatNumber || "N/A"}</div>
                 </Col>
 
                 {/* Passengers */}
@@ -721,9 +730,10 @@ const sendTicketEmail = async (ticketData) => {
         show={showTicketModal}
         setShow={setShowTicketModal}
         bookedDetails={bookedDetails}
+        seatNumber={seatNumber}
       />
     </Container>
   );
 };
 
-export default BusBookingReview;
+export default BusBooking;

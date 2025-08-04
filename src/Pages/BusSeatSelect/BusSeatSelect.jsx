@@ -51,7 +51,6 @@ const Buses = () => {
   const buses = useSelector((state) => state.search?.results || []);
   const { customToast } = useToastr();
   const firstBus = buses.length > 0 ? buses[0] : null;
-  const [selectedSeat, setSelectedSeat] = useState(null);
   const scrollRef = useRef();
   const [isAtStart, setIsAtStart] = useState(true);
 
@@ -87,11 +86,16 @@ const Buses = () => {
     setExpandedBusId((prevId) => (prevId === busId ? null : busId));
   };
 
-  const [selectedSeatDetails, setSelectedSeatDetails] = useState(null);
+  const [selectedSeatsByBus, setSelectedSeatsByBus] = useState({});
 
   const handleSeatSelect = (seatId, bus) => {
-    setSelectedSeat(seatId);
-    setSelectedSeatDetails(bus);
+    setSelectedSeatsByBus((prev) => ({
+      ...prev,
+      [bus.id]: {
+        seatId,
+        busDetails: bus
+      }
+    }));
   };
 
   const busDetails = {
@@ -297,9 +301,10 @@ const Buses = () => {
   };
 
   const navigate = useNavigate();
+
   const handleBooking = (busId, seatId, bus) => {
     dispatch(setBookingDetails(busId, seatId, bus));
-    navigate("/review-booking");
+    navigate("/payment");
   };
 
   return (
@@ -788,56 +793,63 @@ const Buses = () => {
                     <div className="card-body border-top pt-3">
                       <div className="row">
                         <div className="col-md-6 mb-3">
-                          <div className="berth-title">Lower Berth</div>
+                          <div className="berth-title">Seats</div>
                           <div className="seat-grid mb-3">
-                            {(
-                              bus.bus_details?.lowerBerths ||
-                              busDetails.lowerBerths
-                            )?.map((seat, idx) => (
-                              <div
-                                key={idx}
-                                className={`seat-slot ${
-                                  selectedSeat === seat.id ? "selected" : ""
-                                }`}
-                                onClick={() => handleSeatSelect(seat.id)}
-                                style={{ cursor: "pointer" }}
-                              >
-                                {seat.id}
+                            {Array.isArray(bus.seats) &&
+                            bus.seats.length > 0 ? (
+                              [...bus.seats]
+                                .sort((a, b) => a.seat_number - b.seat_number)
+                                .map((seat) => (
+                                  <div
+                                    key={seat.id}
+                                    className={`seat-slot 
+          ${seat.is_booked ? "booked" : "available"} 
+          ${selectedSeatsByBus[bus.id]?.seatId === seat.id ? "selected" : ""}`}
+                                    onClick={() => {
+                                      if (seat.is_booked) {
+                                        customToast?.({
+                                          severity: "error",
+                                          summary: "Seat already booked",
+                                          detail: `Seat number ${seat.seat_number} is not available.`,
+                                          life: 3000
+                                        });
+                                      } else {
+                                        handleSeatSelect(seat.id, bus);
+                                      }
+                                    }}
+                                    style={{
+                                      cursor: seat.is_booked
+                                        ? "not-allowed"
+                                        : "pointer"
+                                    }}
+                                  >
+                                    {seat.seat_number}
+                                  </div>
+                                ))
+                            ) : (
+                              <div className="text-danger fw-bold">
+                                No seats available
                               </div>
-                            ))}
+                            )}
                           </div>
 
-                          <div className="berth-title">Upper Berth</div>
-                          <div className="seat-grid">
-                            {(
-                              bus.bus_details?.upperBerths ||
-                              busDetails.upperBerths
-                            )?.map((seat, idx) => (
-                              <div
-                                key={idx}
-                                className={`seat-slot ${
-                                  selectedSeat === seat.id ? "selected" : ""
-                                }`}
-                                onClick={() => handleSeatSelect(seat.id)}
-                                style={{ cursor: "pointer" }}
-                              >
-                                {seat.id}
-                              </div>
-                            ))}
-                          </div>
-                          {selectedSeat && (
-                            <div className="text-end mt-3">
-                              <button
-                                className="btn btn-primary"
-                                onClick={() =>
-                                  handleBooking(bus.id, selectedSeat, bus)
-                                }
-                              >
-                                Book Now
-                              </button>
-                            </div>
+                          {selectedSeatsByBus[bus.id]?.seatId && (
+                            <button
+                              className="btn btn-primary mt-3"
+                              onClick={() =>
+                                handleBooking(
+                                  bus.id,
+                                  selectedSeatsByBus[bus.id].seatId,
+                                  selectedSeatsByBus[bus.id].busDetails
+                                )
+                              }
+                            >
+                              Continue to Booking
+                            </button>
                           )}
                         </div>
+
+                        {/* Boarding and Dropping points unchanged */}
                         <div className="col-md-6 d-flex flex-column justify-content-start">
                           {/* Boarding Points */}
                           <div className="berth-title mb-2">

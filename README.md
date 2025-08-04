@@ -1,4 +1,4 @@
-# ✈️ MakeMyTrip - City to City Bus Booking System
+# ✈️ YatraVille - City to City Bus Booking System
 
 A** full-stack** ** web application** built with **React**, **Redux**, **Node.js**, **Express**, and **PostgreSQL** that allows users to register, log in, and book seats for city-to-city bus journeys.
 
@@ -40,10 +40,10 @@ The chatbot can be powered using rule-based logic, or integrated with NLP models
 ## 🧪 Getting Started
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/your-username/makemytrip.git
-cd makemytrip
+git clone https://github.com/your-username/YatraVille.git
+cd YatraVille
 PORT=5000
-DATABASE_URL=postgresql://username:password@localhost:5432/makemytrip
+DATABASE_URL=postgresql://username:password@localhost:5432/YatraVille
 JWT_SECRET=your_jwt_secret
 # For backend
 cd server

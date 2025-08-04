@@ -13,7 +13,7 @@ const overlayStyle = {
   minHeight: "83vh"
 };
 
-const SearchLayout = () => {
+const BusSearch = () => {
   const inputRef = useRef(null);
   const { customToast } = useToastr();
   const [cities, setCities] = useState([]);
@@ -104,7 +104,6 @@ const SearchLayout = () => {
       window.loadingStart();
       const response = await api.get(`/buses?${query}`);
       const buses = response.data;
-
       if (!buses || buses.length === 0) {
         customToast({
           severity: "error",
@@ -119,6 +118,7 @@ const SearchLayout = () => {
       }
 
       dispatch(setSearchResults(buses, fromCityName, toCityName));
+      console.log("buses data",buses)
       navigate("/buses");
       window.loadingEnd();
     } catch (error) {
@@ -323,4 +323,4 @@ const SearchLayout = () => {
   );
 };
 
-export default SearchLayout;
+export default BusSearch;

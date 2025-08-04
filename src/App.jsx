@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import Home from "./Pages/Home.jsx/Home";
-import Buses from "./Pages/Buses/Buses";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
-import SearchLayout from "./Components/SearchLayout/SearchLayout";
-import Booking from "./Components/Booking/Booking";
-import ReviewBooking from "./Pages/ReviewBooking/ReviewBooking";
+import BusSearch from "./Components/BusSearch/BusSearch";
+import BusSeatSelect from "./Pages/BusSeatSelect/BusSeatSelect";
+import BusReviewPayment from "./Pages/BusReviewPayment/BusReviewPayment";
 import { useSelector, useDispatch } from "react-redux";
 import { setToken } from "./Action/Api";
 import ProtectedRoute from "./ProtectRoute.jsx/ProtectRoute";
@@ -50,7 +49,7 @@ const App = () => {
         await persistor.purge();
         setToken("");
         customToast({
-          severity: "success",
+          severity: "error",
           summary: OPPS_MSG,
           detail: SESSION_EXPIRE,
           life: 3000,
@@ -58,7 +57,7 @@ const App = () => {
           closable: true
         });
         navigate("/login");
-      }, 30 * 60 * 1000);
+      }, 15 * 60 * 1000);
 
       return () => {
         clearTimeout(logoutTimer);
@@ -71,26 +70,26 @@ const App = () => {
       <Route path="/" element={<Layout config={config} />}>
         {/* Public routes */}
         <Route index element={<Home config={config} />} />
-        <Route path="buses" element={<Buses />} />
+        <Route path="buses" element={ <BusSeatSelect />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="search" element={<SearchLayout />} />
+        <Route path="search" element={<BusSearch />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<PageNotFound />} />
         {/* Protected routes */}
         <Route
-          path="booking"
+          path="payment"
           element={
             <ProtectedRoute>
-              <Booking />
+              <BusReviewPayment />
             </ProtectedRoute>
           }
         />
         <Route
-          path="review-booking"
+          path="seat-booking"
           element={
             <ProtectedRoute>
-              <ReviewBooking />
+              <BusSeatSelect />
             </ProtectedRoute>
           }
         />

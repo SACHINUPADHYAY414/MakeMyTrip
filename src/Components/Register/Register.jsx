@@ -552,7 +552,8 @@ const Register = () => {
       present_state: data.presentState,
       present_city: data.presentCity,
       email: data.email,
-      password: data.password
+      password: data.password,
+      mobile_number: data.mobileNumber
     });
 
     try {

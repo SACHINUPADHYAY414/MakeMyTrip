@@ -3,7 +3,6 @@ import OfferCard from "../../Components/OfferCard/OfferCard";
 import WhyBookWithUs from "../../Components/WhyBookWithUs/WhyBookWithUs";
 
 const tabs = ["All Offers", "Bus", "Cabs", "Hotels", "Flights", "Trains"];
-
 const offersData = {
   Bus: [
     {
@@ -248,9 +247,9 @@ const OffersTabs = () => {
 
   const faqs = [
     {
-      question: "Why should I book bus tickets with MakeMyTrip.com?",
+      question: "Why should I book bus tickets with YatraVille.com?",
       answer:
-        "MakeMyTrip is one of the best platforms to book bus tickets that come up with latest technological updates keeping its users in mind. Wide options for buses are available with great offers and discounts. "
+        "YatraVille is one of the best platforms to book bus tickets that come up with latest technological updates keeping its users in mind. Wide options for buses are available with great offers and discounts. "
     },
     {
       question: "What are the payment methods for booking bus tickets?",
@@ -258,17 +257,17 @@ const OffersTabs = () => {
         "We accept payments via credit/debit cards, UPI, wallets, and net banking for your convenience."
     },
     {
-      question: "How to avail discount on bus booking with MakeMyTrip?",
+      question: "How to avail discount on bus booking with YatraVille?",
       answer:
         "You can use promo codes during checkout or check our Offers section for ongoing discounts."
     },
     {
       question: "What to do if I lose my ticket?",
       answer:
-        "You can retrieve your ticket from your email or MakeMyTrip account under 'My Bookings'."
+        "You can retrieve your ticket from your email or YatraVille account under 'My Bookings'."
     },
     {
-      question: "How can I cancel my bus ticket at MakeMyTrip?",
+      question: "How can I cancel my bus ticket at YatraVille?",
       answer:
         "Go to 'My Bookings', choose the ticket, and select cancel. Refund will be processed per policy."
     }
@@ -520,7 +519,7 @@ const OffersTabs = () => {
             <div className="col-md-6">
               <div className="card-body text-start">
                 <h2 className="fw-bold mb-4">
-                  Book Bus Tickets Online with MakeMyTrip
+                  Book Bus Tickets Online with YatraVille
                 </h2>
                 <p className="mb-3">
                   Just think that you’re all set for your much-awaited road trip
