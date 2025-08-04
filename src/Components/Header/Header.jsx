@@ -191,7 +191,7 @@ const NavbarEMT = () => {
           }}
         >
           <NavLink
-            to="/bus"
+            to="/"
             className={({ isActive }) =>
               `menu-item ${isActive ? "active" : ""}`
             }
@@ -393,7 +393,7 @@ const NavbarEMT = () => {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/bus"
+                to="/search"
                 onClick={closeOffcanvas}
                 className={({ isActive }) =>
                   `nav-NavLink ${
