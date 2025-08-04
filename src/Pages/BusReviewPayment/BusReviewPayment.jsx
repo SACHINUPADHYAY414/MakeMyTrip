@@ -6,8 +6,7 @@ import {
   Card,
   Badge,
   Button,
-  Form,
-  InputGroup
+  Form
 } from "react-bootstrap";
 import { BsBusFront, BsTruck } from "react-icons/bs";
 import BreadcrumbNav from "../../Components/Breadcrumb/Breadcrumb";
@@ -54,6 +53,7 @@ import { useNavigate } from "react-router-dom";
 const BusBooking = () => {
   const { customToast } = useToastr();
   const { busId, seatId, busDetails } = useSelector((state) => state.booking);
+  const user = useSelector((state) => state.login?.login_data?.user);
   const navigate = useNavigate();
   const baseFare = 40;
   const gst = 50;
@@ -362,31 +362,34 @@ const BusBooking = () => {
   };
 
   const handleSubmit = async (e) => {
-    if (e && e.preventDefault) e.preventDefault();
-
+    e.preventDefault();
     if (!validateForm()) {
-      customToast({
+      return customToast({
         severity: "error",
         summary: OPPS_MSG,
-        detail: "Please fill all required fields correctly.",
+        detail: "Fill all required fields",
         life: 3000
       });
-      return;
     }
+    const seatNumber =
+      busDetails?.seats?.find((s) => s.id === seatId)?.seat_number || "";
 
     const payload = {
       busId,
       seatId,
       ...formData,
-      couponDiscount,
-      totalPrice: Number(totalPrice.toFixed(0))
+      seatNumber,
+      couponDiscount: 0,
+      totalPrice: Number(Number(busDetails?.price ?? 90).toFixed(0)),
+      fromCity: busDetails?.from_city_name,
+      toCity: busDetails?.to_city_name,
+      journeyDate: busDetails?.journey_date
     };
     setBookedDetails(payload);
+
     try {
-      const response = await api.post("/busBooking", payload);
-      if (!response || response.error) {
-        throw new Error(response?.error || "Failed to submit booking");
-      }
+      const res = await api.post("/busBooking", payload);
+      if (!res || res.error) throw new Error(res?.error || "Booking failed");
       customToast({
         severity: "success",
         summary: SUCCESS_MSG,
@@ -395,20 +398,6 @@ const BusBooking = () => {
       });
 
       setShowTicketModal(true);
-      const ticketData = {
-        email: payload.email,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        busName: busDetails?.bus_name || "",
-        journeyDate: payload.journey_date,
-        seatNumber: payload.seat_number
-      };
-
-      // Only send email if email exists
-      if (ticketData.email) {
-        await sendTicketEmail(ticketData);
-      }
-
       setTimeout(() => {
         navigate("/");
       }, 4000);
@@ -416,23 +405,6 @@ const BusBooking = () => {
       setShowTicketModal(false);
       const message =
         error.response?.data?.message || error.message || SERVER_ERROR;
-      customToast({
-        severity: "error",
-        summary: OPPS_MSG,
-        detail: message,
-        life: 3000
-      });
-    }
-  };
-
-  const sendTicketEmail = async (ticketData) => {
-    try {
-      const response = await api.post("/send-ticket", ticketData);
-      // alert(response.data.message);
-    } catch (error) {
-      const message =
-        error.response?.data?.message || error.message || SERVER_ERROR;
-
       customToast({
         severity: "error",
         summary: OPPS_MSG,
