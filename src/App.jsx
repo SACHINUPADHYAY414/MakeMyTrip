@@ -24,16 +24,20 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [config] = useState(null);
-  const token = useSelector((state) => state.login?.login_data?.token || "");
 
-  // Scroll to top on route change
+  // Ensure token is always a string
+  const rawToken = useSelector((state) => state.login?.login_data?.token || "");
+  const token = typeof rawToken === "string" ? rawToken : "";
+
+  const EXPIRATION_TIME = 10 * 60 * 1000;
+
+  // Scroll to top and loading on route change
   useEffect(() => {
     window.loadingStart?.();
     window.scrollTo(0, 0);
     const timer = setTimeout(() => {
       window.loadingEnd?.();
     }, 2000);
-
     return () => clearTimeout(timer);
   }, [pathname]);
 
@@ -42,40 +46,78 @@ const App = () => {
     setToken(token);
   }, [token]);
 
+  // Save login time when token becomes available
   useEffect(() => {
     if (token) {
-      const logoutTimer = setTimeout(async () => {
-        dispatch({ type: CLEAR_LOGIN_DATA });
-        await persistor.purge();
-        setToken("");
-        customToast({
-          severity: "error",
-          summary: OPPS_MSG,
-          detail: SESSION_EXPIRE,
-          life: 3000,
-          sticky: false,
-          closable: true
-        });
-        navigate("/login");
-      }, 15 * 60 * 1000);
-
-      return () => {
-        clearTimeout(logoutTimer);
-      };
+      const now = Date.now();
+      localStorage.setItem("loginTime", now.toString());
+      localStorage.setItem("tokenExpiresIn", EXPIRATION_TIME.toString());
     }
-  }, [token, dispatch, navigate]);
+  }, [token]);
+
+  // Check token expiry on route change or page load
+  useEffect(() => {
+    const loginTime = localStorage.getItem("loginTime");
+    const tokenExpiresIn = localStorage.getItem("tokenExpiresIn");
+
+    if (token && loginTime && tokenExpiresIn) {
+      const now = Date.now();
+      const expiresAt = parseInt(loginTime, 10) + parseInt(tokenExpiresIn, 10);
+      if (now >= expiresAt) {
+        handleTokenExpiry();
+      }
+    }
+  }, [token, pathname]);
+
+  // Interval check every minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const loginTime = localStorage.getItem("loginTime");
+      const tokenExpiresIn = localStorage.getItem("tokenExpiresIn");
+
+      if (token && loginTime && tokenExpiresIn) {
+        const now = Date.now();
+        const expiresAt =
+          parseInt(loginTime, 10) + parseInt(tokenExpiresIn, 10);
+        if (now >= expiresAt) {
+          clearInterval(interval);
+          handleTokenExpiry();
+        }
+      }
+    }, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [token]);
+
+  const handleTokenExpiry = async () => {
+    dispatch({ type: CLEAR_LOGIN_DATA });
+    await persistor.purge();
+    setToken("");
+    localStorage.removeItem("loginTime");
+    localStorage.removeItem("tokenExpiresIn");
+    customToast({
+      severity: "error",
+      summary: OPPS_MSG,
+      detail: SESSION_EXPIRE,
+      life: 3000,
+      sticky: false,
+      closable: true
+    });
+    navigate("/login");
+  };
 
   return (
     <Routes>
       <Route path="/" element={<Layout config={config} />}>
         {/* Public routes */}
         <Route index element={<Home config={config} />} />
-        <Route path="buses" element={ <BusSeatSelect />} />
+        <Route path="buses" element={<BusSeatSelect />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="search" element={<BusSearch />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<PageNotFound />} />
+
         {/* Protected routes */}
         <Route
           path="payment"
