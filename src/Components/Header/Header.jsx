@@ -20,6 +20,7 @@ import { useToastr } from "../Toastr/ToastrProvider";
 import { SUCCESS_MSG } from "../../Utils/strings";
 import { RiAccountCircleLine } from "react-icons/ri";
 import * as bootstrap from "bootstrap";
+import { PiFilesFill } from "react-icons/pi";
 
 const NavbarEMT = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
@@ -51,10 +52,10 @@ const NavbarEMT = () => {
     navigate("/profile-setting");
   };
 
-  const handleBookingTicket=()=>{
-    navigate("/booking-ticket")
-  }
-  
+  const handleBookingTicket = () => {
+    navigate("/booking-ticket");
+  };
+
   const handleLogout = () => {
     dispatch({ type: CLEAR_LOGIN_DATA });
     persistor.purge();
@@ -390,6 +391,28 @@ const NavbarEMT = () => {
                 </NavLink>
               </li>
             ) : null}
+            {user ? (
+              <li className="nav-item">
+                <NavLink
+                  to="/booking-ticket"
+                  onClick={closeOffcanvas}
+                  className={({ isActive }) =>
+                    `nav-NavLink ${
+                      isActive ? "text-primary fw-semibold" : "text-secondary"
+                    }`
+                  }
+                >
+                  
+                  <PiFilesFill
+                    src="/profilesetting.png"
+                    alt="Profile settings icon"
+                    className="nav-icon"
+                  />
+                  All Tickets
+                </NavLink>
+              </li>
+            ) : null}
+
             <li className="nav-item">
               <NavLink
                 to="/flights"
