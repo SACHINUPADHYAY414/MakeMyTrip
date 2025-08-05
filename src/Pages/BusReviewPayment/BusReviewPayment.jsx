@@ -373,14 +373,13 @@ const BusBooking = () => {
     }
     const seatNumber =
       busDetails?.seats?.find((s) => s.id === seatId)?.seat_number || "";
-
     const payload = {
       busId,
       seatId,
       ...formData,
       seatNumber,
       couponDiscount: 0,
-      totalPrice: Number(Number(busDetails?.price ?? 90).toFixed(0)),
+      totalPrice: Math.ceil(totalPrice),
       fromCity: busDetails?.from_city_name,
       toCity: busDetails?.to_city_name,
       journeyDate: busDetails?.journey_date

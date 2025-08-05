@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setSearchResults } from "../../Redux/Action/searchReducer";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useToastr } from "../Toastr/ToastrProvider";
+import { OPPS_MSG, SERVER_ERROR } from "../../Utils/strings";
 
 const overlayStyle = {
   backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -36,13 +37,15 @@ const BusSearch = () => {
     journeyDate: getTodayDate()
   });
 
+  const [citiesError, setCitiesError] = useState(false);
+
   useEffect(() => {
     const fetchCities = async () => {
       try {
         const response = await api.get("/cities");
         const cityList = response.data || [];
         setCities(cityList);
-
+        setCitiesError(false);
         const newDelhi = cityList.find(
           (c) => c.name.toLowerCase() === "new delhi"
         );
@@ -54,8 +57,17 @@ const BusSearch = () => {
           toCity: dwarka ? dwarka.id.toString() : ""
         }));
       } catch (error) {
-        console.error("Error fetching cities:", error);
         setCities([]);
+        setCitiesError(true);
+        customToast({
+          severity: "error",
+          summary: OPPS_MSG,
+          detail:
+            error.response?.data?.message || error.message || SERVER_ERROR,
+          life: 3000,
+          sticky: false,
+          closable: true
+        });
       }
     };
 
@@ -69,12 +81,23 @@ const BusSearch = () => {
 
   const handleSearch = async () => {
     const { fromCity, toCity, journeyDate } = formData;
+    if (citiesError) {
+      customToast({
+        severity: "error",
+        summary: OPPS_MSG,
+        detail: SERVER_ERROR,
+        life: 3000,
+        sticky: false,
+        closable: true
+      });
+      return;
+    }
 
-    if (!fromCity || !toCity || !journeyDate) {
+    if (!journeyDate) {
       customToast({
         severity: "error",
         summary: "Oops!",
-        detail: "Please select From City, To City and Date.",
+        detail: "Please select any date.",
         life: 3000,
         sticky: false,
         closable: true
@@ -118,7 +141,7 @@ const BusSearch = () => {
       }
 
       dispatch(setSearchResults(buses, fromCityName, toCityName));
-      console.log("buses data",buses)
+      console.log("buses data", buses);
       navigate("/buses");
       window.loadingEnd();
     } catch (error) {

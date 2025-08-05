@@ -615,7 +615,7 @@ card-title {
   padding: 8px 12px;
   background: #eee;
   border-radius: 5px;
-  height: 40px; 
+  height: 40px;
   width: 40px;
   font-weight: bold;
   user-select: none;
@@ -637,3 +637,4 @@ card-title {
 .seat-slot.selected {
   border: 2px solid #4caf50;
 }
+
