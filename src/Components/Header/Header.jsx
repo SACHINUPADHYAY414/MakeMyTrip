@@ -232,7 +232,7 @@ const NavbarEMT = () => {
           </NavLink>
 
           <NavLink
-            to="/flights"
+            to="/flight-select"
             className={({ isActive }) =>
               `menu-item ${isActive ? "active" : ""}`
             }
@@ -402,7 +402,6 @@ const NavbarEMT = () => {
                     }`
                   }
                 >
-                  
                   <PiFilesFill
                     src="/profilesetting.png"
                     alt="Profile settings icon"
@@ -415,7 +414,7 @@ const NavbarEMT = () => {
 
             <li className="nav-item">
               <NavLink
-                to="/flights"
+                to="/flight-select"
                 onClick={closeOffcanvas}
                 className={({ isActive }) =>
                   `nav-NavLink ${

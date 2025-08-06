@@ -26,8 +26,12 @@ const dashboardItems = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/search");
+  const handleClick = (label) => {
+    if (label === "Flights") {
+      navigate("/flight-select");
+    } else {
+      navigate("/search");
+    }
   };
 
   return (

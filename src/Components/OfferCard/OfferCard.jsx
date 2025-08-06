@@ -3,7 +3,7 @@ import React from 'react';
 const OfferCard = ({ img, title, description, code, onBook }) => {
     return (
         <div
-            className="card flex-row overflow-hidden shadow-md"
+            className="card flex-row shadow-md"
             style={{
                 width: '350px',
                 minWidth: '410px',
@@ -26,7 +26,7 @@ const OfferCard = ({ img, title, description, code, onBook }) => {
             </div>
 
             <div className="col-6">
-                <div className="card-body h-100 d-flex flex-column justify-content-between" style={{ overflowY: 'auto' }}>
+                <div className="card-body h-100 d-flex flex-column justify-content-between">
                     <div>
                         <h6 className="card-title fw-bold mb-1" style={{ fontSize: '1rem' }}>
                             {title}

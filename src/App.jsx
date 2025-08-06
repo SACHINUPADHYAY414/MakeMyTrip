@@ -9,7 +9,7 @@ import BusSearch from "./Components/BusSearch/BusSearch";
 import BusSeatSelect from "./Pages/BusSeatSelect/BusSeatSelect";
 import BusReviewPayment from "./Pages/BusReviewPayment/BusReviewPayment";
 import { useSelector, useDispatch } from "react-redux";
-import { setToken,setToastHandler } from "./Action/Api";
+import { setToken, setToastHandler } from "./Action/Api";
 import ProtectedRoute from "./ProtectRoute.jsx/ProtectRoute";
 import { CLEAR_LOGIN_DATA } from "./Redux/authSlice";
 import { persistor } from "./Redux/store";
@@ -18,6 +18,7 @@ import { OPPS_MSG, SESSION_EXPIRE } from "./Utils/strings";
 import ProfileSettings from "./Pages/ProfileSetting/ProfileSeting";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import AllTickets from "./Pages/AllTickets/AllTickets";
+import FlightSeatSelect from "./Pages/FlightSeatSelect/FlightSeatSelect";
 
 const App = () => {
   const { customToast } = useToastr();
@@ -106,10 +107,10 @@ const App = () => {
     });
     navigate("/login");
   };
-useEffect(() => {
-  // Set global toast handler once on app load
-  setToastHandler(customToast);
-}, []);
+  useEffect(() => {
+    // Set global toast handler once on app load
+    setToastHandler(customToast);
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<Layout config={config} />}>
@@ -121,6 +122,7 @@ useEffect(() => {
         <Route path="search" element={<BusSearch />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="flight-select" element={<FlightSeatSelect />} />
 
         {/* Protected routes */}
         <Route

@@ -279,9 +279,37 @@ const OffersTabs = () => {
 
   return (
     <div className="mt-4">
-      <div className="container position-relative py-3 bg-white rounded shadow-lg mb-4">
+      <div className="container position-relative py-3 px-4 bg-white rounded shadow-lg mb-4">
         <div className="d-flex justify-content-between align-items-center mb-2">
-          <h3 className="fw-bold m-0">Offers</h3>
+          {/* Top Row: Offers + Arrow Buttons */}
+          <div className="d-flex justify-content-between align-items-center mb-1">
+            <h3 className="fw-bold m-0">Offers</h3>
+            <ul className="nav border-bottom row row-cols-2 row-cols-md-auto g-0 d-none d-md-flex">
+              {tabs.map((tab) => (
+                <li className="nav-item" key={tab}>
+                  <button
+                    className={`nav-link w-100 text-md-center text-start px-3 ${
+                      activeTab === tab ? "fw-semibold" : ""
+                    }`}
+                    onClick={() => setActiveTab(tab)}
+                    type="button"
+                    style={{
+                      cursor: "pointer",
+                      border: "none",
+                      borderBottom:
+                        activeTab === tab
+                          ? "3px solid #0d6efd"
+                          : "3px solid transparent",
+                      backgroundColor: "transparent"
+                    }}
+                  >
+                    {tab}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <div className="d-flex gap-2">
             {canScrollLeft && (
               <button
@@ -301,23 +329,6 @@ const OffersTabs = () => {
             )}
           </div>
         </div>
-
-        <ul className="nav nav-tabs mb-3 flex-wrap">
-          {tabs.map((tab) => (
-            <li className="nav-item" key={tab}>
-              <button
-                className={`nav-link ${
-                  activeTab === tab ? "active fw-semibold" : ""
-                }`}
-                onClick={() => setActiveTab(tab)}
-                type="button"
-                style={{ cursor: "pointer" }}
-              >
-                {tab}
-              </button>
-            </li>
-          ))}
-        </ul>
 
         <div
           ref={sliderRef}
